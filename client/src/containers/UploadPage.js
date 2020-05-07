@@ -2,7 +2,7 @@ import React, { Component } from "react";
 //import ipfs from '../../../ipfs/ipfsClient';
 
 const ipfsClient = require("ipfs-http-client");
-const ipfs = ipfsClient('http://localhost:5002');
+const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/4002');
 
 class UploadPage extends Component {
     constructor(props) {
