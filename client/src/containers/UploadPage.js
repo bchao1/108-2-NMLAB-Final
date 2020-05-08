@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-//import ipfs from '../../../ipfs/ipfsClient';
-
-const ipfsClient = require("ipfs-http-client");
-const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/4002');
 
 class UploadPage extends Component {
     constructor(props) {
@@ -16,14 +12,14 @@ class UploadPage extends Component {
     onSubmit = async(e) => {
         e.preventDefault();
         // Send to ipfs server node
-        console.log(ipfs.getEndpointConfig());
-        await ipfs.add(this.state.buffer, (err, ipfsHash) =>{
-            this.setState({
-                ipfsHash: ipfsHash,
-            })
-            console.log(err, ipfsHash);
-        })
-        console.log("FINISH!");
+        // console.log(ipfs.getEndpointConfig());
+        // await ipfs.add(this.state.buffer, (err, ipfsHash) =>{
+        //     this.setState({
+        //         ipfsHash: ipfsHash,
+        //     })
+        //     console.log(err, ipfsHash);
+        // })
+        // console.log("FINISH!");
     }
 
     onFileUpload = e => {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class MyFeedsPage extends Component {
+class MarketPage extends Component {
     constructor(props) {
         super(props);
     }
@@ -8,10 +8,10 @@ class MyFeedsPage extends Component {
     render() {
         return (
             <div>
-                My feeds.
+                Market
             </div>
         )
     }
 }
 
-export default MyFeedsPage;
+export default MarketPage;
