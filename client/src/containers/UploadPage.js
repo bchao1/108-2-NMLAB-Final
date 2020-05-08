@@ -1,25 +1,28 @@
 import React, { Component } from "react";
+const ipfsClient = require('ipfs-http-client');
+const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5002/http');
 
 class UploadPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ipfsHash: null,
+            ipfsHash: "hello",
             buffer: ''
         }
     }
 
     onSubmit = async(e) => {
         e.preventDefault();
-        // Send to ipfs server node
-        // console.log(ipfs.getEndpointConfig());
-        // await ipfs.add(this.state.buffer, (err, ipfsHash) =>{
-        //     this.setState({
-        //         ipfsHash: ipfsHash,
-        //     })
-        //     console.log(err, ipfsHash);
-        // })
-        // console.log("FINISH!");
+        //Send to ipfs server node
+        console.log(ipfs.getEndpointConfig());
+        console.log(ipfs);
+        await ipfs.add(this.state.buffer, (err, ipfsHash) =>{
+            this.setState({
+                ipfsHash: ipfsHash,
+            })
+            console.log(err, ipfsHash);
+        })
+        console.log("FINISH!");
     }
 
     onFileUpload = e => {
@@ -54,7 +57,7 @@ class UploadPage extends Component {
                         Send file to ipfs
                     </button>
                 </form>
-                <div>
+                <div style={{color:"white"}}>
                     {this.state.ipfsHash}
                 </div>
             </div>

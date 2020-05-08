@@ -22,11 +22,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div class="Navigation">
-          <div class="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
-          <div class="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
-          <div class="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
-          <div class="button"><NavLink style={styles.link} to="/logout">Logout</NavLink></div>
+        <div className="Navigation">
+          <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
+          <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
+          <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
+          <div className="button"><NavLink style={styles.link} to="/logout">Logout</NavLink></div>
         </div>
         <Switch>
           <Route path="/market" component={MarketPage}></Route>
