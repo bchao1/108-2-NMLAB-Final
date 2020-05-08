@@ -57,11 +57,13 @@
     
 ## Progress
 - 5/12
-    - use docker for ipfs `docker run -it -p 4002:4002 -p 4003:4003 -p 5002:5002 -p 9090:9090 ipfs/js-ipfs:latest`
-    - `/ip4/0.0.0.0/tcp/5002/http` for uploading. `/ip4/0.0.0.0/tcp/9090/http` for read.
-    - got ipfs running in daemon. See `client/src/UploadPage.js` for client connection code. 
-    - noob frontend layout.
-    - Local read only gateway: `http://localhost:9090/ipfs/<cid>`
+### frontend, ipfs
+- **UPDATE**: successfully run on server. Host is `ntuee.org`
+- use docker for ipfs `docker run -it -p 4002:4002 -p 4003:4003 -p 5002:5002 -p9090:9090 ipfs/js-ipfs:latest`
+- `/ip4/0.0.0.0/tcp/5002/http` for uploading. `/ip4/0.0.0.0/tcp/9090/http` forread.
+- got ipfs running in daemon. See `client/src/UploadPage.js` for client connectioncode. 
+- noob frontend layout.
+- Local read only gateway: `http://localhost:9090/ipfs/<cid>`
 
 ## References
 - react-box: https://github.com/truffle-box/react-box

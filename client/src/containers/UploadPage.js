@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 const ipfsClient = require('ipfs-http-client');
-const ipfs = ipfsClient("/ip4/0.0.0.0/tcp/5002/http");
+const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
 
 class UploadPage extends Component {
     constructor(props) {
