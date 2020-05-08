@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 const ipfsClient = require('ipfs-http-client');
-const ipfs = ipfsClient('/ip4/127.0.0.1/tcp/5002/http');
+const ipfs = ipfsClient("/ip4/0.0.0.0/tcp/5002/http");
 
 class UploadPage extends Component {
     constructor(props) {
@@ -16,12 +16,12 @@ class UploadPage extends Component {
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
-        await ipfs.add(this.state.buffer, (err, ipfsHash) =>{
+        for await (const result of ipfs.add(this.state.buffer)) {
+            console.log(result.path);
             this.setState({
-                ipfsHash: ipfsHash,
+                ipfsHash: result.path
             })
-            console.log(err, ipfsHash);
-        })
+        }
         console.log("FINISH!");
     }
 
