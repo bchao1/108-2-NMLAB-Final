@@ -12,7 +12,7 @@ const styles = {
     textDecoration: "none",
     verticalAlign: "middle",
     color: "#edfffe"
-  }
+  },
 }
 class App extends Component {
   constructor(props){

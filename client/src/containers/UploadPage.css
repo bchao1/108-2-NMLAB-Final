@@ -1,0 +1,59 @@
+.UploadPage {
+    margin: 0 auto;
+    margin-top: 2%;
+    width: 50%;
+    height: 80%;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-family: 'Rajdhani';
+}
+
+
+input[type="file"] {
+    display: none;
+}
+
+.file-upload, button {
+    width: 30%;
+    font-family: 'Rajdhani';
+    font-size: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin: 10px 10px;
+    background-color: transparent;
+    color: white;
+}
+
+.footer {
+    font-size: 1.2rem;
+    height: 10%;
+}
+
+.footer-field {
+    color: white;
+    height: 50%;
+    display: flex; 
+}
+
+.footer-key {
+    width: 20%;
+    text-align: right;
+    color: white;
+    font-weight: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    padding-right: 2%;
+}
+
+.footer-value {
+    width: 80%;
+    text-align: left;
+    padding-left: 2%;
+}
+
+.preview {
+    color: white;
+    height: 80%;
+}
