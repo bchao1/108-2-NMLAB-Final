@@ -56,6 +56,23 @@
     - output: BookMeta - main_ipfs_hash
     
 ## Progress
+- 5/12 Discussion
+    - Frontend finish
+        - 崇皓
+            - Filecard - `react-modal`
+                1. Donate
+                2. Buy - `BuyBook`
+                3. Preview field
+            - Use web3 to link contract and frontend
+        - 宗瑞
+            - Also upload preview file to ipfs - `Upload`
+            - Use web3 to link contract and frontend
+        - No login for now
+    - 永松
+        - `BuyBook`: Transfer ETH
+        - `GetCollection`: files I bought
+        - `GetRandom`: or get latest N ?
+            - If random, frontend needs to send a list of indices to contract backend.
 - 5/12
 ### frontend, ipfs
 - 5/10
