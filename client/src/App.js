@@ -29,6 +29,7 @@ class App extends Component {
       const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = PublisherContract.networks[networkId];
+      console.log(networkId, deployedNetwork);
       const instance = new web3.eth.Contract(
         PublisherContract.abi,
         deployedNetwork && deployedNetwork.address,

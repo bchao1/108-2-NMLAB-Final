@@ -8,7 +8,12 @@ function Bookshelf(props) {
             {
                 props.fileInfo.map(info => (
                     <div className="filecard">
-                        <FileCard prevHash={info.prevHash} hash={info.hash} name={info.name} />
+                        <FileCard 
+                            // FIXME variable name mismatch
+                            prevHash={info.preview_ipfs_hash} 
+                            hash={info.main_ipfs_hash} 
+                            name={info.filename} 
+                        />
                     </div>
                 ))
             }
