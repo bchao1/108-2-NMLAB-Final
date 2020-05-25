@@ -11,12 +11,20 @@ class MarketPage extends Component {
         this.state = {items: []};
     }
 
-    componentDidMount = async (prevProps, prevState, snapshot) => {
-        const { accounts, contract } = this.props;
-        console.log(accounts, contract);
-        if (!accounts || !contract)　return;
+    componentDidMount = async () => {
+        this.updateMarket();
+    }
 
-        var items = await contract.methods.GetRandom(numItems).send({from: accounts[0]});
+    componentDidUpdate = async(prevProps, prevState, snapshot) => {
+        const { accounts, contract } = this.props;
+        if (accounts === prevProps.accounts && contract === prevProps.contract) return;  // state change
+        this.updateMarket();
+    }
+
+    updateMarket = async() => {
+        const { accounts, contract } = this.props;
+        if (!accounts || !contract)　return;
+        var items = await contract.methods.GetRandom(numItems).call();
         console.log(items);
         this.setState({items: items});
     }
