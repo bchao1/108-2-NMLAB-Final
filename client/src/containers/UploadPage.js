@@ -10,12 +10,16 @@ const styles = {
     }
 }
 
+const previewCharNum = 500;
+
 class UploadPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ipfsHash: '',
+            mainIPFSHash: '',
+            previewIPFSHash: '',
             buffer: '',
+            previewBuffer: '',
             fileName: ''
         }
     }
@@ -25,13 +29,18 @@ class UploadPage extends Component {
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
-        for await (const result of ipfs.add(this.state.buffer)) {
+        this.uploadFile(this.state.buffer, "main");
+        this.uploadFile(this.state.previewBuffer, "preview");
+        console.log("FINISH!");
+    }
+
+    uploadFile = async(buffer, statePrefix) => {
+        for await (const result of ipfs.add(buffer)) {
             console.log(result.path);
             this.setState({
-                ipfsHash: result.path
+                [statePrefix + "IPFSHash"]: result.path
             })
         }
-        console.log("FINISH!");
     }
 
     onFileUpload = e => {
@@ -42,8 +51,10 @@ class UploadPage extends Component {
         // file.size 
         this.setState({
             fileName: file.name,
-            ipfsHash: '',
+            mainIPFSHash: '',
+            previewIPFSHash: '',
             buffer: '',
+            previewBuffer: ''
         })
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);
@@ -52,9 +63,20 @@ class UploadPage extends Component {
 
     toBuffer = async(reader) => {
         const buffer = await Buffer.from(reader.result);
+        const previewBuffer = this.createPreviewFileBuffer(buffer);
         this.setState({
             buffer: buffer,
+            previewBuffer: previewBuffer,
         });
+    }
+
+    createPreviewFileBuffer = (mainBuffer) => {
+        let allContent = mainBuffer.toString('utf8');
+        console.log(allContent);
+        let previewContent = allContent.substring(0, previewCharNum);
+        console.log(previewContent);
+        const previewBuffer = Buffer.from(previewContent, 'utf8');
+        return previewBuffer;
     }
 
     render() {
@@ -74,16 +96,17 @@ class UploadPage extends Component {
                         Send file to ipfs
                     </button>
                 </form>
-                <div className="preview">
-                </div>
+                <div className="preview">{this.state.previewBuffer.toString()}</div>
                 <div className="footer">
                     <div className="footer-field">
                         <div className="footer-key">File uploaded</div>
                         <div className="footer-value">{this.state.fileName}</div>
                     </div>
                     <div className="footer-field">
-                        <div className="footer-key">File CID</div> 
-                        <div className="footer-value">{this.state.ipfsHash}</div>
+                        <div className="footer-key">Main File CID</div> 
+                        <div className="footer-value">{this.state.mainIPFSHash}</div>
+                        <div className="footer-key">Preview File CID</div> 
+                        <div className="footer-value">{this.state.previewIPFSHash}</div>
                     </div>
                 </div>
             </div>
