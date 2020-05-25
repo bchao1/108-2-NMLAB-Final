@@ -105,6 +105,8 @@ class UploadPage extends Component {
                     <div className="footer-field">
                         <div className="footer-key">Main File CID</div> 
                         <div className="footer-value">{this.state.mainIPFSHash}</div>
+                    </div>
+                    <div className="footer-field">
                         <div className="footer-key">Preview File CID</div> 
                         <div className="footer-value">{this.state.previewIPFSHash}</div>
                     </div>
