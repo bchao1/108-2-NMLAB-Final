@@ -8,13 +8,23 @@ contract("Publisher", accounts => {
       "main_hash",
       "preview_hash",
       100,
-      "author",
+      accounts[0],
     ]);
 
     var myUpload = await instance.GetMyUpload.call();
-    console.log(myUpload);
-    assert(myUpload.indexOf("main_hash") !== -1, "Not Uploaded");
+    assert(myUpload.length == 1, "Not Uploaded");
   });
+  
+  it("Test BuyBook and GetMyCollect", async () => {
+    const instance = await Publisher.deployed();
+    await instance.Upload([
+      "filename.txt",
+      "main_hash",
+      "preview_hash",
+      100,
+      accounts[0],
+    ]);
+  }) 
 
   it("Test GetRandom", async () => {
     const instance = await Publisher.deployed();
@@ -25,7 +35,7 @@ contract("Publisher", accounts => {
         `main_hash_${i}`,
         `preview_hash_${i}`,
         i + 100,
-        `author_${i}`,
+        accounts[0],
       ]);
     }
 
