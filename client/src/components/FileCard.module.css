@@ -1,0 +1,74 @@
+.Filecard {
+    position: relative;
+    width: 20%;
+    height: 100%;
+
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+
+    font-family: 'Rajdhani';
+    word-wrap: break-word;
+}
+
+.file:hover{
+    cursor: pointer;
+    text-shadow: 0 0 5px rgb(215, 247, 247);
+}
+
+.key
+{
+    font-size: 1.5rem;
+    font-weight: 1000;
+}
+
+.value
+{
+    margin-bottom: 5%;
+}
+
+.footer
+{
+    width: 90%;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 0;
+}
+.footerRow
+{
+    width: 100%;
+    display: flex;
+    font-size: 1rem;
+    margin-bottom: 5%;
+    word-wrap: break-word;
+}
+
+.left
+{
+    width: 60%;
+}
+
+.right
+{
+    margin-left:5%;
+    width: 35%;
+    border: 1px solid white;
+
+}
+
+.right:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+*:focus {
+    outline: none;
+}
+

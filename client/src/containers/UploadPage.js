@@ -42,7 +42,8 @@ class UploadPage extends Component {
         // file.size 
         this.setState({
             fileName: file.name,
-            ipfsHash: ''
+            ipfsHash: '',
+            buffer: '',
         })
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);

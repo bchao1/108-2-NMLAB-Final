@@ -5,22 +5,22 @@ import "./MarketPage.css";
 const testFileInfo = [
     { 
         prevHash: 1,
-        hash: 'A',
+        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
         name: 'haha'
     },
     { 
         prevHash: 1,
-        hash: 'A',
+        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
         name: 'haha'
     },
     { 
         prevHash: 1,
-        hash: 'A',
+        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
         name: 'haha'
     },
     { 
         prevHash: 1,
-        hash: 'A',
+        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
         name: 'haha'
     }
 ];

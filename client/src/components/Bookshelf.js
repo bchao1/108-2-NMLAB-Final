@@ -6,10 +6,8 @@ function Bookshelf(props) {
     return(
         <div className="Bookshelf">
             {
-                props.fileInfo.map(info => (
-                    <div className="filecard">
-                        <FileCard prevHash={info.prevHash} hash={info.hash} name={info.name} />
-                    </div>
+                props.fileInfo.map((info, idx) => (
+                    <FileCard key={idx} prevHash={info.prevHash} hash={info.hash} name={info.name} />
                 ))
             }
         </div>

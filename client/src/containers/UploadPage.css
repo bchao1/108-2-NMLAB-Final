@@ -27,6 +27,11 @@ input[type="file"] {
     color: white;
 }
 
+.file-upload:hover, button:hover
+{
+    color: black;
+    background-color: white;
+}
 .footer {
     font-size: 1.2rem;
     height: 10%;
