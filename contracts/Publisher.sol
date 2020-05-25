@@ -65,7 +65,11 @@ contract Publisher {
   function GetRandom(uint num) public view returns (BookMeta[] memory){
       BookMeta[] memory random = new BookMeta[](num);
       for (uint i = 0; i < num; i++) {
+<<<<<<< HEAD
           random[i] = HashToMeta[Hashes[Hashes.length-1-i]];
+=======
+          random[i] = HashToMeta[Hashes[randMod(Hashes.length)]];
+>>>>>>> master
       }
       return random;
   }
