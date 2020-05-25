@@ -28,6 +28,7 @@ contract Publisher {
   function Upload(BookMeta memory data) public returns (bool) {
       if (!isValid[data.main_ipfs_hash]) {
         HashToMeta[data.main_ipfs_hash] = data;
+        Hashes.push(data.preview_ipfs_hash);
         PrevHashToMeta[data.preview_ipfs_hash] = data;
         SenderToHashes[msg.sender].push(data.main_ipfs_hash);
         return true;
@@ -40,8 +41,8 @@ contract Publisher {
   function BuyBook(string memory preview_ipfs_hash) public payable returns (bool) {
       address payable author = PrevHashToMeta[preview_ipfs_hash].author;
       uint price = PrevHashToMeta[preview_ipfs_hash].price;
-      require(msg.value == price);
-      author.transfer(msg.value);
+      require(msg.value == price, "Incorrect Value");
+      author.transfer(price);
       ReaderToHashes[msg.sender].push(PrevHashToMeta[preview_ipfs_hash].main_ipfs_hash);
       return true;
   }
@@ -63,9 +64,12 @@ contract Publisher {
   }
 
   function GetRandom(uint num) public view returns (BookMeta[] memory){
-      BookMeta[] memory random = new BookMeta[](num);
-      for (uint i = 0; i < num; i++) {
-          random[i] = HashToMeta[Hashes[Hashes.length-1-i]];
+      uint actual_num = num;
+      if (Hashes.length < num) actual_num = Hashes.length;
+      BookMeta[] memory random = new BookMeta[](actual_num);
+
+      for (uint i = 0; i < actual_num; i++) {
+          random[i] = HashToMeta[Hashes[Hashes.length - 1 - i]];
       }
       return random;
   }

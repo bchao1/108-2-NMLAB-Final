@@ -12,18 +12,32 @@ contract("Publisher", accounts => {
     ]);
 
     var myUpload = await instance.GetMyUpload.call();
-    assert(myUpload.length == 1, "Not Uploaded");
+    assert.equal(myUpload.length, 1, "Not Uploaded");
   });
   
   it("Test BuyBook and GetMyCollect", async () => {
     const instance = await Publisher.deployed();
+    const price = 1;
+
     await instance.Upload([
-      "filename.txt",
-      "main_hash",
-      "preview_hash",
-      100,
+      "filename_.txt",
+      "main_hash_",
+      "preview_hash_",
+      price,
       accounts[0],
     ]);
+
+    const initialBalance = await web3.eth.getBalance(accounts[1]);
+    var status = await instance.BuyBook("preview_hash", {from: accounts[1], value: price});
+    assert(status);
+
+    const finalBalance = await web3.eth.getBalance(accounts[1]);
+    const difference = (initialBalance - finalBalance).toString();
+    console.log(initialBalance, finalBalance);
+    assert.equal(difference, price, "Incorrect transfer");
+
+    var collection = await instance.GetMyCollect();
+    assert.equal(collection.length, 1, "Book Not Bought");
   }) 
 
   it("Test GetRandom", async () => {
