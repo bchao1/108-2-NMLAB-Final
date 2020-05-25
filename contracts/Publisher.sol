@@ -9,13 +9,15 @@ contract Publisher {
         string main_ipfs_hash;
         string preview_ipfs_hash;
         uint price;
-        string author;
+        address payable author;
     }
 
   string[] Hashes;
   mapping (string => BookMeta) HashToMeta;
+  mapping (string => BookMeta) PrevHashToMeta;
   mapping (string => bool) isValid;
   mapping (address => string[]) SenderToHashes;
+  mapping (address => string[]) ReaderToHashes;
   uint randNonce = 0;
 
   function randMod(uint _modulus) internal returns(uint) {
@@ -26,6 +28,7 @@ contract Publisher {
   function Upload(BookMeta memory data) public returns (bool) {
       if (!isValid[data.main_ipfs_hash]) {
         HashToMeta[data.main_ipfs_hash] = data;
+        PrevHashToMeta[data.preview_ipfs_hash] = data;
         SenderToHashes[msg.sender].push(data.main_ipfs_hash);
         return true;
       }
@@ -34,19 +37,35 @@ contract Publisher {
       }
   }
 
-  function BuyBook(string memory preview_ipfs_hash) public returns (bool) {
-      // TODO
-      return false;
+  function BuyBook(string memory preview_ipfs_hash) public payable returns (bool) {
+      address payable author = PrevHashToMeta[preview_ipfs_hash].author;
+      uint price = PrevHashToMeta[preview_ipfs_hash].price;
+      require(msg.value == price);
+      author.transfer(msg.value);
+      ReaderToHashes[msg.sender].push(PrevHashToMeta[preview_ipfs_hash].main_ipfs_hash);
+      return true;
   }
 
-  function GetMyUpload() public view returns (string[] memory){
-      return SenderToHashes[msg.sender];
+  function GetMyUpload() public view returns (BookMeta[] memory){
+      BookMeta[] memory ret = new BookMeta[](SenderToHashes[msg.sender].length);
+      for (uint i = 0; i < SenderToHashes[msg.sender].length; i++) {
+          ret[i] = HashToMeta[SenderToHashes[msg.sender][i]];
+      }
+      return ret;
   }
 
-  function GetRandom(uint num) public returns (BookMeta[] memory){
+  function GetMyCollect() public view returns (BookMeta[] memory){
+      BookMeta[] memory ret = new BookMeta[](ReaderToHashes[msg.sender].length);
+      for (uint i = 0; i < ReaderToHashes[msg.sender].length; i++) {
+          ret[i] = HashToMeta[ReaderToHashes[msg.sender][i]];
+      }
+      return ret;
+  }
+
+  function GetRandom(uint num) public view returns (BookMeta[] memory){
       BookMeta[] memory random = new BookMeta[](num);
       for (uint i = 0; i < num; i++) {
-          random[i] = HashToMeta[Hashes[randMod(Hashes.length)]];
+          random[i] = HashToMeta[Hashes[Hashes.length-1-i]];
       }
       return random;
   }
