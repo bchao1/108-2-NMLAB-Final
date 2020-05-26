@@ -28,10 +28,22 @@ class MarketPage extends Component {
         this.setState({items: items});
     }
 
+    splitRows = () => {
+        let rows = [], chunk = 4, i, j;
+        for(i = 0,j = this.state.items.length; i < j; i += chunk) {
+            rows.append(this.state.items.slice(i, i + chunk));
+        }
+        return rows
+    }
     render() {  
+        let bookshelfRows = splitRows();
         return (
             <div className="MarketPage">
-                <Bookshelf fileInfo={this.state.items} />
+                {
+                    bookshelfRows.map((row, idx) => (
+                        <Bookshelf key={idx} fileInfo={row} />
+                    ))
+                }
             </div>
         )
     }
