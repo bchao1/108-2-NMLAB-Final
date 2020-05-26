@@ -33,14 +33,15 @@ class UploadPage extends Component {
         const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
 
         const { accounts, contract } = this.props;
+        console.log(accounts);
         let status = await contract.methods.Upload([
             this.state.fileName,
             mainIPFSHash,
             previewIPFSHash,
-            10, // TODO
+            0, // TODO
             accounts[0],
-        ]).call({from: accounts[0]});
-        console.log(status);
+        ]).send({from: accounts[0]});
+        console.log("upload status", status);
 
         this.setState({
             mainIPFSHash: mainIPFSHash,

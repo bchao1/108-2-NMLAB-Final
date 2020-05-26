@@ -3,6 +3,13 @@ import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
 
 const numItems = 10;
+const testItems = Array(10).fill(
+    {
+        'prev_ipfs_hash': 111,
+        'main_ipfs_hash': 111,
+        'filename': 'haha',
+    }
+);
 
 class MarketPage extends Component {
     constructor(props) {
@@ -22,21 +29,24 @@ class MarketPage extends Component {
 
     updateMarket = async() => {
         const { accounts, contract } = this.props;
+        console.log(accounts);
+        console.log(contract);
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
-        console.log(items);
+        console.log(items[0]);
+        //items = testItems;
         this.setState({items: items});
     }
 
     splitRows = () => {
         let rows = [], chunk = 4, i, j;
         for(i = 0,j = this.state.items.length; i < j; i += chunk) {
-            rows.append(this.state.items.slice(i, i + chunk));
+            rows.push(this.state.items.slice(i, i + chunk));
         }
         return rows
     }
     render() {  
-        let bookshelfRows = splitRows();
+        let bookshelfRows = this.splitRows();
         return (
             <div className="MarketPage">
                 {
