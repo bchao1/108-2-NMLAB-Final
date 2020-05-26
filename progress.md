@@ -57,19 +57,24 @@
     
 ## Progress
 - 5/26
-    - 宗瑞
-        - Finish basic support
-            - Finish Buy/Donate
-            - Finish My feeds
-                - Show main file hash
-            - Market no main file hash
-    - 崇皓
-        - Other
-            - Different file types
-                - pdf
-                - images
-            - Advertisement 
-    - 永松
+    - Finish basic support
+        - Finish Buy/Donate
+        - Finish My feeds
+            - Show main file hash
+        - Market no main file hash
+        - Upload don't show file hash, show success message
+        - Remove logout
+    - Other
+        - Different file types
+            - pdf
+            - images
+        - Advertisement 
+        - Add "file type" field in contract
+        - Market search / tag filter
+            - search by keywords
+            - filter tag by file type
+            - Search in frontend? (lame) or in contract
+        - Basic info page (author hash <-> author name in contract)
 - 5/12 Discussion
     - Frontend finish
         - 崇皓
