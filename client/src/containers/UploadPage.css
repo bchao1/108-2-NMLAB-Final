@@ -6,6 +6,7 @@
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 8px;
     font-family: 'Rajdhani';
+    position: relative;
 }
 
 
@@ -27,15 +28,22 @@ input[type="file"] {
     color: white;
 }
 
+.file-upload:hover, button:hover
+{
+    color: black;
+    background-color: white;
+}
+
 .footer {
+    width: 100%;
     font-size: 1.2rem;
-    height: 10%;
+    position: absolute;
+    bottom: 0;
 }
 
 .footer-field {
     color: white;
-    height: 50%;
-    display: flex; 
+    display: flex;
 }
 
 .footer-key {
@@ -55,5 +63,4 @@ input[type="file"] {
 
 .preview {
     color: white;
-    height: 80%;
 }

@@ -62,7 +62,10 @@ class UploadPage extends Component {
         // file.size 
         this.setState({
             fileName: file.name,
-            mainIPFSHash: ''
+            mainIPFSHash: '',
+            previewIPFSHash: '',
+            buffer: '',
+            previewBuffer: ''
         })
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);
@@ -111,6 +114,8 @@ class UploadPage extends Component {
                     <div className="footer-field">
                         <div className="footer-key">Main File CID</div> 
                         <div className="footer-value">{this.state.mainIPFSHash}</div>
+                    </div>
+                    <div className="footer-field">
                         <div className="footer-key">Preview File CID</div> 
                         <div className="footer-value">{this.state.previewIPFSHash}</div>
                     </div>

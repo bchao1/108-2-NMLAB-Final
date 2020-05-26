@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
 
-
 const numItems = 10;
 
 class MarketPage extends Component {
