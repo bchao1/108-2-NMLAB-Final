@@ -56,6 +56,20 @@
     - output: BookMeta - main_ipfs_hash
     
 ## Progress
+- 5/26
+    - 宗瑞
+        - Finish basic support
+            - Finish Buy/Donate
+            - Finish My feeds
+                - Show main file hash
+            - Market no main file hash
+    - 崇皓
+        - Other
+            - Different file types
+                - pdf
+                - images
+            - Advertisement 
+    - 永松
 - 5/12 Discussion
     - Frontend finish
         - 崇皓
