@@ -55,6 +55,10 @@ contract("Publisher", accounts => {
 
     var rand = await instance.GetRandom.call(num);
     assert(rand.length === num, `Should return ${num} items.`);
+
+    for (let i = 0; i < num; i++) {
+      assert(rand[i]['filename'].startsWith("filename"), "filename incorrect");
+    }
     // TODO
   })
 });
