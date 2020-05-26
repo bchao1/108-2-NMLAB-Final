@@ -33,7 +33,7 @@ class FileCard extends React.Component{
     }
 
     onPreviewClick = async () => {
-        let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.hash}`);
+        let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.main_ipfs_hash}`);
         let data = await res.text();
         this.setState({
             prevText: data,
@@ -65,9 +65,9 @@ class FileCard extends React.Component{
 
                 <div className={styles.file} onClick={this.onPreviewClick}>
                     <div className={styles.key}>File hash</div>
-                    <div className={styles.value}>{this.props.hash}</div>
+                    <div className={styles.value}>{this.props.main_ipfs_hash}</div>
                     <div className={styles.key}>File name</div>
-                    <div className={styles.value}>{this.props.name}</div>
+                    <div className={styles.value}>{this.props.filename}</div>
                 </div>
                 <div className={styles.footer}>
                     <div className={styles.footerRow}>
