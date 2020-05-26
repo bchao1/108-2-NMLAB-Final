@@ -28,7 +28,7 @@ contract Publisher {
   function Upload(BookMeta memory data) public returns (bool) {
       if (!isValid[data.main_ipfs_hash]) {
         HashToMeta[data.main_ipfs_hash] = data;
-        Hashes.push(data.preview_ipfs_hash);
+        Hashes.push(data.main_ipfs_hash);
         PrevHashToMeta[data.preview_ipfs_hash] = data;
         SenderToHashes[msg.sender].push(data.main_ipfs_hash);
         return true;
