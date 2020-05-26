@@ -2,41 +2,36 @@ import React, { Component } from "react";
 import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
 
-const testFileInfo = [
-    { 
-        prevHash: 1,
-        hash: 'QmaurgJWL4VyiikU8tkChm6Lf9Rw7ffRVaLG91iSaGURYM',
-        name: 'haha'
-    },
-    { 
-        prevHash: 1,
-        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
-        name: 'haha'
-    },
-    { 
-        prevHash: 1,
-        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
-        name: 'haha'
-    },
-    { 
-        prevHash: 1,
-        hash: 'QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp',
-        name: 'haha'
-    }
-];
+const numItems = 10;
 
 class MarketPage extends Component {
     constructor(props) {
         super(props);
+        this.state = {items: []};
     }
 
-    render() {
+    componentDidMount = async () => {
+        this.updateMarket();
+    }
+
+    componentDidUpdate = async(prevProps, prevState, snapshot) => {
+        const { accounts, contract } = this.props;
+        if (accounts === prevProps.accounts && contract === prevProps.contract) return;  // state change
+        this.updateMarket();
+    }
+
+    updateMarket = async() => {
+        const { accounts, contract } = this.props;
+        if (!accounts || !contract)　return;
+        var items = await contract.methods.GetRandom(numItems).call();
+        console.log(items);
+        this.setState({items: items});
+    }
+
+    render() {  
         return (
             <div className="MarketPage">
-                <Bookshelf fileInfo={testFileInfo} />
-                <Bookshelf fileInfo={testFileInfo} />
-                <Bookshelf fileInfo={testFileInfo} />
-                <Bookshelf fileInfo={testFileInfo} />
+                <Bookshelf fileInfo={this.state.items} />
             </div>
         )
     }

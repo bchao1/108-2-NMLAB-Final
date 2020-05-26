@@ -12,6 +12,7 @@ contract("Publisher", accounts => {
     ]);
 
     var myUpload = await instance.GetMyUpload.call();
+    console.log(myUpload);
     assert(myUpload.indexOf("main_hash") !== -1, "Not Uploaded");
   });
 

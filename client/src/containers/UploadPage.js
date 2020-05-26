@@ -29,18 +29,29 @@ class UploadPage extends Component {
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
-        this.uploadFile(this.state.buffer, "main");
-        this.uploadFile(this.state.previewBuffer, "preview");
+        const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
+        const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
+
+        const { accounts, contract } = this.props;
+        let status = await contract.methods.Upload([
+            this.state.fileName,
+            mainIPFSHash,
+            previewIPFSHash,
+            10, // TODO
+            accounts[0],
+        ]).call({from: accounts[0]});
+        console.log(status);
+
+        this.setState({
+            mainIPFSHash: mainIPFSHash,
+            previewIPFSHash: previewIPFSHash,
+        })
         console.log("FINISH!");
     }
 
     uploadFile = async(buffer, statePrefix) => {
-        for await (const result of ipfs.add(buffer)) {
-            console.log(result.path);
-            this.setState({
-                [statePrefix + "IPFSHash"]: result.path
-            })
-        }
+        const result = await ipfs.add(buffer).next();
+        return result.value.path;
     }
 
     onFileUpload = e => {
@@ -72,9 +83,7 @@ class UploadPage extends Component {
 
     createPreviewFileBuffer = (mainBuffer) => {
         let allContent = mainBuffer.toString('utf8');
-        console.log(allContent);
         let previewContent = allContent.substring(0, previewCharNum);
-        console.log(previewContent);
         const previewBuffer = Buffer.from(previewContent, 'utf8');
         return previewBuffer;
     }
