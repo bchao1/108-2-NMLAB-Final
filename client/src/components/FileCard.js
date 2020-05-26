@@ -25,7 +25,7 @@ class FileCard extends React.Component{
     }
 
     onDonateClick = () => {
-
+        alert("DONATE!");
     }
 
     onBuyClick = () => {

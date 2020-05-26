@@ -19,7 +19,7 @@
 
 .file:hover{
     cursor: pointer;
-    text-shadow: 0 0 5px rgb(215, 247, 247);
+    text-shadow: 0 0 10px rgb(215, 247, 247);
 }
 
 .key
