@@ -63,4 +63,5 @@ input[type="file"] {
 
 .preview {
     color: white;
+    height: 60%;
 }

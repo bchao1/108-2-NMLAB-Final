@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.0",
     "ipfs-http-client": "^44.0.3",
+    "jimp": "^0.12.1",
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "react-modal": "^3.11.2",

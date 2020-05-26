@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./UploadPage.css";
+import { generatePreviewImage } from '../utils/image';
+let Jimp = require('jimp');
 
 const ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
@@ -7,6 +9,9 @@ const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
 const styles = {
     topicText: {
         color: "white"
+    },
+    image: {
+        height: "100%",
     }
 }
 
@@ -20,7 +25,8 @@ class UploadPage extends Component {
             previewIPFSHash: '',
             buffer: '',
             previewBuffer: '',
-            fileName: ''
+            fileName: '',
+            fileType: [],
         }
     }
 
@@ -31,7 +37,8 @@ class UploadPage extends Component {
         console.log(ipfs);
         const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
         const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
-
+        
+        /*
         const { accounts, contract } = this.props;
         console.log(accounts);
         let status = await contract.methods.Upload([
@@ -42,7 +49,7 @@ class UploadPage extends Component {
             accounts[0],
         ]).send({from: accounts[0]});
         console.log("upload status", status);
-
+        */
         this.setState({
             mainIPFSHash: mainIPFSHash,
             previewIPFSHash: previewIPFSHash,
@@ -61,32 +68,60 @@ class UploadPage extends Component {
         const file = e.target.files[0];
         // file.name = file original upload name
         // file.size 
+        const fileType = this.getFileTypes(file.type);
         this.setState({
             fileName: file.name,
             mainIPFSHash: '',
             previewIPFSHash: '',
             buffer: '',
-            previewBuffer: ''
+            previewBuffer: '',
+            fileType: fileType
         })
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => this.toBuffer(reader);
     }
 
-    toBuffer = async(reader) => {
+    toBuffer = async reader => {
         const buffer = await Buffer.from(reader.result);
-        const previewBuffer = this.createPreviewFileBuffer(buffer);
+        const previewBuffer = await this.createPreviewFileBuffer(buffer);
         this.setState({
             buffer: buffer,
             previewBuffer: previewBuffer,
         });
     }
 
-    createPreviewFileBuffer = (mainBuffer) => {
-        let allContent = mainBuffer.toString('utf8');
-        let previewContent = allContent.substring(0, previewCharNum);
-        const previewBuffer = Buffer.from(previewContent, 'utf8');
+    createPreviewFileBuffer = async mainBuffer => {
+        let previewBuffer = null;
+        if(this.state.fileType[0] == 'text') {
+            let allContent = mainBuffer.toString('utf8');
+            let previewContent = allContent.substring(0, previewCharNum);
+            previewContent += '\nSubscribe to unlock all content';
+            previewBuffer = Buffer.from(previewContent, 'utf8');
+        }
+        else if(this.state.fileType[0] == 'image') {
+            let img = await Jimp.read(mainBuffer.slice());
+            img.blur(20);
+            previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
+        }
         return previewBuffer;
+    }
+
+    getFileTypes = typeStr => {
+        return typeStr.split('/'); // return type / subtype
+    }
+
+    getPreviewContent = () => {
+        if(this.state.fileType[0] == 'text') return this.state.previewBuffer.toString();
+        else if(this.state.fileType[0] == 'image') {
+            let previewContent = 'data:image/jpeg;base64,' + this.state.previewBuffer.toString('base64')
+            return (
+                <img 
+                    src={previewContent} 
+                    style={styles.image}
+                />
+            );
+        }
     }
 
     render() {
@@ -106,7 +141,7 @@ class UploadPage extends Component {
                         Send file to ipfs
                     </button>
                 </form>
-                <div className="preview">{this.state.previewBuffer.toString()}</div>
+                <div className="preview">{this.getPreviewContent()}</div>
                 <div className="footer">
                     <div className="footer-field">
                         <div className="footer-key">File uploaded</div>
@@ -119,6 +154,10 @@ class UploadPage extends Component {
                     <div className="footer-field">
                         <div className="footer-key">Preview File CID</div> 
                         <div className="footer-value">{this.state.previewIPFSHash}</div>
+                    </div>
+                    <div className="footer-field">
+                        <div className="footer-key">File type</div> 
+                        <div className="footer-value">{this.state.fileType[1]}</div>
                     </div>
                 </div>
             </div>
