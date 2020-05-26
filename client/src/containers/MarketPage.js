@@ -33,7 +33,7 @@ class MarketPage extends Component {
         console.log(contract);
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
-        console.log(items[0]);
+        console.log(items);
         //items = testItems;
         this.setState({items: items});
     }

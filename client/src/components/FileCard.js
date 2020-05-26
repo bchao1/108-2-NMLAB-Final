@@ -33,7 +33,7 @@ class FileCard extends React.Component{
     }
 
     onPreviewClick = async () => {
-        let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.prev_ipfs_hash}`);
+        let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.preview_ipfs_hash}`);
         let data = await res.text();
         this.setState({
             prevText: data,
