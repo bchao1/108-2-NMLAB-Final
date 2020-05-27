@@ -100,7 +100,7 @@ class UploadPage extends Component {
         }
         else if(this.state.fileType[0] == 'image') {
             let img = await Jimp.read(mainBuffer.slice());
-            img.blur(20);
+            img.blur(10);
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
         else if(this.state.fileType[1] == 'pdf') {
