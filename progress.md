@@ -65,9 +65,12 @@
         - Upload don't show file hash, show success message
         - Remove logout
     - Other
-        - Different file types
-            - pdf
-            - images
+        - Different "displayable" file types
+            - `application/pdf`
+            - images: `image`
+                - `image/jpeg`
+                - `image/png`
+            - `text`
         - Advertisement 
         - Add "file type" field in contract
         - Market search / tag filter
@@ -102,8 +105,7 @@
     - `/ip4/0.0.0.0/tcp/5002/http` for uploading. `/ip4/0.0.0.0/tcp/9090/http` forread.
     - got ipfs running in daemon. See `client/src/UploadPage.js` for client     connection code. 
     - noob frontend layout.
-    - Local read only gateway: `http://localhost:9090/ipfs/<cid>`
-
+    - Local read only gateway: `http://ntuee.org:9090/ipfs/<cid>`
 ## References
 - react-box: https://github.com/truffle-box/react-box
 - Metamask: https://metamask.io
