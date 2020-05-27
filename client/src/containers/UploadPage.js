@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { PDFDocument } from 'pdf-lib'
+
 import "./UploadPage.css";
 import PDF from '../components/PDF';
 import { getPreviewContent } from "../utils/preview";
+
 
 let Jimp = require('jimp');
 
@@ -104,8 +107,12 @@ class UploadPage extends Component {
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
         else if(this.state.fileType[1] == 'pdf') {
-            previewBuffer = mainBuffer.slice();
-            console.log(previewBuffer);
+            let pdfDoc = await PDFDocument.load(mainBuffer.slice());
+            let previewDoc = await PDFDocument.create();
+            let [firstPage] = await previewDoc.copyPages(pdfDoc, [0]); // extract first page
+            previewDoc.addPage(firstPage);
+            previewBuffer = await previewDoc.save();
+
         }
         return previewBuffer;
     }

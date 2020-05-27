@@ -15,7 +15,7 @@ class PDF extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      pageNumber: 0,
+      pageNumber: 1,
       numPages: 0,
     };
   }
