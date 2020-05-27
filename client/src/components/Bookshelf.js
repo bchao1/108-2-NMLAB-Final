@@ -13,6 +13,7 @@ function Bookshelf(props) {
                         preview_ipfs_hash={info.preview_ipfs_hash} 
                         main_ipfs_hash={info.main_ipfs_hash} 
                         filename={info.filename} 
+                        filetype={info.filetype}
                     />
 
                 ))

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./UploadPage.css";
-import { generatePreviewImage } from '../utils/image';
+import PDF from '../components/PDF';
+import { getPreviewContent } from "../utils/preview";
+
 let Jimp = require('jimp');
 
 const ipfsClient = require('ipfs-http-client');
@@ -9,9 +11,6 @@ const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
 const styles = {
     topicText: {
         color: "white"
-    },
-    image: {
-        height: "100%",
     }
 }
 
@@ -104,24 +103,15 @@ class UploadPage extends Component {
             img.blur(20);
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
+        else if(this.state.fileType[1] == 'pdf') {
+            previewBuffer = mainBuffer.slice();
+            console.log(previewBuffer);
+        }
         return previewBuffer;
     }
 
     getFileTypes = typeStr => {
         return typeStr.split('/'); // return type / subtype
-    }
-
-    getPreviewContent = () => {
-        if(this.state.fileType[0] == 'text') return this.state.previewBuffer.toString();
-        else if(this.state.fileType[0] == 'image') {
-            let previewContent = 'data:image/jpeg;base64,' + this.state.previewBuffer.toString('base64')
-            return (
-                <img 
-                    src={previewContent} 
-                    style={styles.image}
-                />
-            );
-        }
     }
 
     render() {
@@ -141,7 +131,7 @@ class UploadPage extends Component {
                         Send file to ipfs
                     </button>
                 </form>
-                <div className="preview">{this.getPreviewContent()}</div>
+                <div className="preview">{getPreviewContent(this.state.previewBuffer, this.state.fileType)}</div>
                 <div className="footer">
                     <div className="footer-field">
                         <div className="footer-key">File uploaded</div>

@@ -5,9 +5,10 @@ import "./MarketPage.css";
 const numItems = 10;
 const testItems = Array(10).fill(
     {
-        'prev_ipfs_hash': 111,
-        'main_ipfs_hash': 111,
+        'preview_ipfs_hash': 'QmWFnmYunFZgtL7tqZPL3AU1sCjMMZnoApQf6heKbXJPMy',
+        'main_ipfs_hash': 'QmeWyCvbLzJfXaf24e4CTYNCZbrw9XNLcjnQ1BzBgHiRmc',
         'filename': 'haha',
+        'filetype': ['image', 'png'],
     }
 );
 
@@ -28,12 +29,15 @@ class MarketPage extends Component {
     }
 
     updateMarket = async() => {
+        /*
         const { accounts, contract } = this.props;
-        console.log(accounts);
-        console.log(contract);
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
         if(items == null) items = [];
+        */
+        let items = testItems;
+        console.log(testItems);
+        console.log(testItems[0]);
         this.setState({items: items});
     }
 

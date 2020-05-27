@@ -5,6 +5,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { getPreviewContent } from "../utils/preview";
 
 // test cid QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp
 
@@ -13,7 +14,7 @@ class FileCard extends React.Component{
         super(props);
         this.state = {
             donate: "",
-            prevText: "",
+            prevBuffer: "",
             prevOpen: false,
         };
     }
@@ -34,9 +35,9 @@ class FileCard extends React.Component{
 
     onPreviewClick = async () => {
         let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.preview_ipfs_hash}`);
-        let data = await res.text();
+        let data = await res.arrayBuffer();
         this.setState({
-            prevText: data,
+            prevBuffer: Buffer.from(data),
             prevOpen: true,
         })
         //alert(data);
@@ -48,6 +49,7 @@ class FileCard extends React.Component{
         })
     }
 
+    
     render(){
         return(
             <div className={styles.Filecard}>
@@ -57,9 +59,7 @@ class FileCard extends React.Component{
                 >
                     <DialogTitle>Preview</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            {this.state.prevText}
-                        </DialogContentText>
+                        {getPreviewContent(this.state.prevBuffer, this.props.filetype)}
                     </DialogContent>
                 </Dialog>
 
