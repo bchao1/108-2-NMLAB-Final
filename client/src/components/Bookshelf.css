@@ -1,17 +1,7 @@
 .Bookshelf {
     width: 100%;
-    height: 200px;
+    height: 300px;
     margin-top: 25px;
     color: white;
     display: flex;
-}
-
-.filecard {
-    width: 20%;
-    height: 100%;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 8px;
-    font-family: 'Rajdhani';
 }

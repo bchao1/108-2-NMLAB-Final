@@ -56,6 +56,45 @@
     - output: BookMeta - main_ipfs_hash
     
 ## Progress
+- 5/26
+    - Finish basic support
+        - Finish Buy/Donate
+        - Finish My feeds
+            - Show main file hash
+        - Market no main file hash
+        - Upload don't show file hash, show success message
+        - Remove logout
+    - Other
+        - Different "displayable" file types
+            - `application/pdf`
+            - images: `image`
+                - `image/jpeg`
+                - `image/png`
+            - `text`
+        - Advertisement 
+        - Add "file type" field in contract
+        - Market search / tag filter
+            - search by keywords
+            - filter tag by file type
+            - Search in frontend? (lame) or in contract
+        - Basic info page (author hash <-> author name in contract)
+- 5/12 Discussion
+    - Frontend finish
+        - 崇皓
+            - Filecard - `react-modal`
+                1. Donate
+                2. Buy - `BuyBook`
+                3. Preview field
+            - Use web3 to link contract and frontend
+        - 宗瑞
+            - Also upload preview file to ipfs - `Upload`
+            - Use web3 to link contract and frontend
+        - No login for now
+    - 永松
+        - `BuyBook`: Transfer ETH
+        - `GetCollection`: files I bought
+        - `GetRandom`: or get latest N ?
+            - If random, frontend needs to send a list of indices to contract backend.
 - 5/12
 ### frontend, ipfs
 - 5/10
@@ -66,8 +105,7 @@
     - `/ip4/0.0.0.0/tcp/5002/http` for uploading. `/ip4/0.0.0.0/tcp/9090/http` forread.
     - got ipfs running in daemon. See `client/src/UploadPage.js` for client     connection code. 
     - noob frontend layout.
-    - Local read only gateway: `http://localhost:9090/ipfs/<cid>`
-
+    - Local read only gateway: `http://ntuee.org:9090/ipfs/<cid>`
 ## References
 - react-box: https://github.com/truffle-box/react-box
 - Metamask: https://metamask.io
