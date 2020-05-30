@@ -1,4 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+// material ui imports
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+
 import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
 
@@ -12,10 +20,30 @@ const testItems = Array(10).fill(
     }
 );
 
+const styles = theme => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      borderColor: "white"
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+    whiteText: {
+        color: "white",
+    },
+    whiteBorder: {
+        borderColor: "white"
+    }
+  });
+
 class MarketPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {items: []};
+        this.state = {
+            items: [],
+            filetype: "all",
+        };
     }
 
     componentDidMount = async () => {
@@ -39,6 +67,12 @@ class MarketPage extends Component {
         this.setState({items: items});
     }
 
+    handleFileTypeChange = e => {
+        this.setState({
+            filetype: e.target.value,
+        })
+    }
+
     splitRows = () => {
         let rows = [], chunk = 4, i, j;
         for(i = 0,j = this.state.items.length; i < j; i += chunk) {
@@ -48,16 +82,43 @@ class MarketPage extends Component {
     }
     render() {  
         let bookshelfRows = this.splitRows();
+        const { classes } = this.props;
         return (
-            <div className="MarketPage">
-                {
-                    bookshelfRows.map((row, idx) => (
-                        <Bookshelf key={idx} fileInfo={row} />
-                    ))
-                }
-            </div>
+            <Fragment>
+                <div class="select-bar">
+                    <FormControl className={classes.formControl}>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            value={this.state.filetype}
+                            onChange={this.handleFileTypeChange}
+                            variant = "outlined"
+                            className={classes.whiteText}
+                        >
+                        <MenuItem value={"all"}>All</MenuItem>
+                        <MenuItem value={"text"}>Text</MenuItem>
+                        <MenuItem value={"pdf"}>PDF</MenuItem>
+                        <MenuItem value={"image"}>Image</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField 
+                        className={classes.formControl} 
+                        type="search" 
+                        variant = "outlined"
+                        InputProps={{className: classes.whiteText}}
+                    />
+                </div>
+                <div className="MarketPage">
+                    {
+                        /*
+                        bookshelfRows.map((row, idx) => (
+                            <Bookshelf key={idx} fileInfo={row} />
+                        ))
+                        */
+                    }
+                </div>
+            </Fragment>
         )
     }
 }
 
-export default MarketPage;
+export default withStyles(styles)(MarketPage);
