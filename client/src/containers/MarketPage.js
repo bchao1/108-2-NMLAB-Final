@@ -5,10 +5,10 @@ import "./MarketPage.css";
 const numItems = 10;
 const testItems = Array(10).fill(
     {
-        'preview_ipfs_hash': 'QmWFnmYunFZgtL7tqZPL3AU1sCjMMZnoApQf6heKbXJPMy',
-        'main_ipfs_hash': 'QmeWyCvbLzJfXaf24e4CTYNCZbrw9XNLcjnQ1BzBgHiRmc',
-        'filename': 'haha',
-        'filetype': ['image', 'png'],
+        'preview_ipfs_hash': 'QmSZLYLL95vEQ49Hate6rHjj1SucoVLPRPSY8YurB8MNvV',
+        'main_ipfs_hash': 'QmRcFDuroaMAdprDjctj5MHwcgSHmjcGg47r4JJtJQxhYQ',
+        'filename': 'haa',
+        'filetype': 'pdf',
     }
 );
 

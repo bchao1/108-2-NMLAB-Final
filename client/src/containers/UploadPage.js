@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { PDFDocument } from 'pdf-lib'
-
-import "./UploadPage.css";
-import PDF from '../components/PDF';
 import { getPreviewContent } from "../utils/preview";
+import "./UploadPage.css";
 
 
 let Jimp = require('jimp');
@@ -23,17 +21,18 @@ class UploadPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mainIPFSHash: '',
-            previewIPFSHash: '',
-            buffer: '',
-            previewBuffer: '',
-            fileName: '',
-            fileType: [],
+            mainIPFSHash: null,
+            previewIPFSHash: null,
+            buffer: null,
+            previewBuffer: null,
+            fileName: null,
+            fileType: null,
         }
     }
 
     onSubmit = async(e) => {
         e.preventDefault();
+        if(this.state.fileType === null) return;
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
@@ -73,12 +72,13 @@ class UploadPage extends Component {
         const fileType = this.getFileTypes(file.type);
         this.setState({
             fileName: file.name,
-            mainIPFSHash: '',
-            previewIPFSHash: '',
-            buffer: '',
-            previewBuffer: '',
+            mainIPFSHash: null,
+            previewIPFSHash: null,
+            buffer: null,
+            previewBuffer: null,
             fileType: fileType
         })
+        if(fileType === null) return;
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => this.toBuffer(reader);
@@ -95,18 +95,18 @@ class UploadPage extends Component {
 
     createPreviewFileBuffer = async mainBuffer => {
         let previewBuffer = null;
-        if(this.state.fileType[0] == 'text') {
+        if(this.state.fileType == 'text') {
             let allContent = mainBuffer.toString('utf8');
             let previewContent = allContent.substring(0, previewCharNum);
             previewContent += '\nSubscribe to unlock all content';
             previewBuffer = Buffer.from(previewContent, 'utf8');
         }
-        else if(this.state.fileType[0] == 'image') {
+        else if(this.state.fileType == 'image') {
             let img = await Jimp.read(mainBuffer.slice());
             img.blur(10);
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
-        else if(this.state.fileType[1] == 'pdf') {
+        else if(this.state.fileType == 'pdf') {
             let pdfDoc = await PDFDocument.load(mainBuffer.slice());
             let previewDoc = await PDFDocument.create();
             let [firstPage] = await previewDoc.copyPages(pdfDoc, [0]); // extract first page
@@ -118,7 +118,11 @@ class UploadPage extends Component {
     }
 
     getFileTypes = typeStr => {
-        return typeStr.split('/'); // return type / subtype
+        let filetype = typeStr.split('/'); // return type / subtype
+        if(filetype[0] == 'text') return 'text';
+        else if(filetype[0] == 'image') return 'image';
+        else if(filetype[1] == 'pdf') return 'pdf';
+        return null;
     }
 
     render() {
@@ -154,7 +158,7 @@ class UploadPage extends Component {
                     </div>
                     <div className="footer-field">
                         <div className="footer-key">File type</div> 
-                        <div className="footer-value">{this.state.fileType[1]}</div>
+                        <div className="footer-value">{this.state.fileType}</div>
                     </div>
                 </div>
             </div>

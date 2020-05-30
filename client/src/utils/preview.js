@@ -9,8 +9,8 @@ const styles = {
 }
 
 function getPreviewContent(buffer, type){
-    if(type[0] == 'text') return buffer.toString();
-    else if(type[0] == 'image') {
+    if(type === 'text') return buffer.toString();
+    else if(type === 'image') {
         console.log(buffer);
         let previewContent = 'data:image/jpeg;base64,' + buffer.toString('base64')
         return (
@@ -20,7 +20,7 @@ function getPreviewContent(buffer, type){
             />
         );
     }
-    else if(type[1] == 'pdf') {
+    else if(type === 'pdf') {
         return <PDF file={{data:buffer}} />;
     }
 }
