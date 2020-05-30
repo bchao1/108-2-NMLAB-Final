@@ -29,15 +29,13 @@ class MarketPage extends Component {
     }
 
     updateMarket = async() => {
-        /*
+        
         const { accounts, contract } = this.props;
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
         if(items == null) items = [];
-        */
-        let items = testItems;
-        console.log(testItems);
-        console.log(testItems[0]);
+        
+        //let items = testItems;
         this.setState({items: items});
     }
 

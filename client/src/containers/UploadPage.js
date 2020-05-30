@@ -21,36 +21,40 @@ class UploadPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mainIPFSHash: null,
-            previewIPFSHash: null,
-            buffer: null,
-            previewBuffer: null,
-            fileName: null,
-            fileType: null,
+            mainIPFSHash: "",
+            previewIPFSHash: "",
+            buffer: "",
+            previewBuffer: "",
+            fileName: "",
+            fileType: "",
         }
     }
 
     onSubmit = async(e) => {
         e.preventDefault();
-        if(this.state.fileType === null) return;
+        if(this.state.buffer.length === 0) {
+            alert("No files uploaded!");
+            return;
+        }
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
         const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
         const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
         
-        /*
+        
         const { accounts, contract } = this.props;
         console.log(accounts);
         let status = await contract.methods.Upload([
             this.state.fileName,
+            this.state.fileType,
             mainIPFSHash,
             previewIPFSHash,
             0, // TODO
             accounts[0],
         ]).send({from: accounts[0]});
         console.log("upload status", status);
-        */
+        
         this.setState({
             mainIPFSHash: mainIPFSHash,
             previewIPFSHash: previewIPFSHash,
@@ -70,15 +74,18 @@ class UploadPage extends Component {
         // file.name = file original upload name
         // file.size 
         const fileType = this.getFileTypes(file.type);
+        if(fileType === null) {
+            alert("Invalid file type!");
+            return;
+        }
         this.setState({
             fileName: file.name,
-            mainIPFSHash: null,
-            previewIPFSHash: null,
-            buffer: null,
-            previewBuffer: null,
+            mainIPFSHash: "",
+            previewIPFSHash: "",
+            buffer: "",
+            previewBuffer: "",
             fileType: fileType
         })
-        if(fileType === null) return;
         let reader = new window.FileReader();
         reader.readAsArrayBuffer(file);
         reader.onloadend = () => this.toBuffer(reader);

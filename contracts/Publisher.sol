@@ -6,6 +6,7 @@ contract Publisher {
 
     struct BookMeta {
         string filename;
+        string filetype;
         string main_ipfs_hash;
         string preview_ipfs_hash;
         uint price;
