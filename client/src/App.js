@@ -64,10 +64,6 @@ class App extends Component {
             path="/upload" 
             component={() => <UploadPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
           </Route>
-          <Route 
-            path="/logout" 
-            component={() => <LoginPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
-          </Route>
         </Switch>
       </div>
     );
