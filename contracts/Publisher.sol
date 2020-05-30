@@ -8,7 +8,7 @@ contract Publisher {
         string filename;
         string main_ipfs_hash;
         string preview_ipfs_hash;
-        uint price;
+        uint256 price;
         address payable author;
     }
 
@@ -31,6 +31,7 @@ contract Publisher {
         Hashes.push(data.preview_ipfs_hash);
         PrevHashToMeta[data.preview_ipfs_hash] = data;
         SenderToHashes[msg.sender].push(data.main_ipfs_hash);
+        isValid[data.main_ipfs_hash] = true;
         return true;
       }
       else {
@@ -42,7 +43,7 @@ contract Publisher {
       address payable author = PrevHashToMeta[preview_ipfs_hash].author;
       uint price = PrevHashToMeta[preview_ipfs_hash].price;
       require(msg.value == price, "Incorrect Value");
-      author.transfer(price);
+      author.transfer(msg.value);
       ReaderToHashes[msg.sender].push(PrevHashToMeta[preview_ipfs_hash].main_ipfs_hash);
       return true;
   }
