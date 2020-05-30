@@ -65,14 +65,14 @@
         - Upload don't show file hash, show success message
         - Remove logout
     - Other
-        - Different "displayable" file types
+        - [x] Different "displayable" file types
             - `application/pdf`
             - images: `image`
                 - `image/jpeg`
                 - `image/png`
             - `text`
         - Advertisement 
-        - Add "file type" field in contract
+        - [x] Add "file type" field in contract
         - Market search / tag filter
             - search by keywords
             - filter tag by file type
