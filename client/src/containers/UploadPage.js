@@ -39,30 +39,36 @@ class UploadPage extends Component {
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
-        const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
-        const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
-        
-        
-        const { accounts, contract } = this.props;
-        console.log(accounts);
-        let status = await contract.methods.Upload([
-            this.state.fileName,
-            this.state.fileType,
-            mainIPFSHash,
-            previewIPFSHash,
-            accounts[0],
-        ]).send({from: accounts[0]});
-        console.log("upload status", status);
-        
-        this.setState({
-            mainIPFSHash: mainIPFSHash,
-            previewIPFSHash: previewIPFSHash,
-        })
-        console.log("FINISH!");
+
+        try {
+            const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
+            const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
+            
+            const { accounts, contract } = this.props;
+            console.log(accounts);
+            let status = await contract.methods.Upload([
+                this.state.fileName,
+                this.state.fileType,
+                mainIPFSHash,
+                previewIPFSHash,
+                accounts[0],
+            ]).send({from: accounts[0]});
+            console.log("upload status", status);
+            
+            this.setState({
+                mainIPFSHash: mainIPFSHash,
+                previewIPFSHash: previewIPFSHash,
+            })
+            console.log("FINISH!");
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     uploadFile = async(buffer, statePrefix) => {
-        const result = await ipfs.add(buffer).next();
+        var result = await ipfs.add(buffer).next();            
+        console.log(result);
         return result.value.path;
     }
 
@@ -140,30 +146,30 @@ class UploadPage extends Component {
                             type = "file"
                             onChange = {this.onFileUpload}
                         />
-                        File Upload
+                        Select file
                     </label>
                     <button
                         type="submit"
                     > 
-                        Send file to ipfs
+                        Upload
                     </button>
                 </form>
                 <div className="preview">{getPreviewContent(this.state.previewBuffer, this.state.fileType)}</div>
                 <div className="footer">
                     <div className="footer-field">
-                        <div className="footer-key">File uploaded</div>
+                        <div className="footer-key"><pre>File name</pre></div>
                         <div className="footer-value">{this.state.fileName}</div>
                     </div>
-                    <div className="footer-field">
+                    {/* <div className="footer-field">
                         <div className="footer-key">Main File CID</div> 
                         <div className="footer-value">{this.state.mainIPFSHash}</div>
                     </div>
                     <div className="footer-field">
                         <div className="footer-key">Preview File CID</div> 
                         <div className="footer-value">{this.state.previewIPFSHash}</div>
-                    </div>
+                    </div> */}
                     <div className="footer-field">
-                        <div className="footer-key">File type</div> 
+                        <div className="footer-key"><pre>File type</pre></div> 
                         <div className="footer-value">{this.state.fileType}</div>
                     </div>
                 </div>
