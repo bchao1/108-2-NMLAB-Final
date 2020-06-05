@@ -49,6 +49,12 @@ contract Publisher {
       return true;
   }
 
+  function Donate(string memory preview_ipfs_hash) public payable returns (bool) {
+      address payable author = PrevHashToMeta[preview_ipfs_hash].author;
+      author.transfer(msg.value);
+      return true;
+  }
+
   function GetMyUpload() public view returns (BookMeta[] memory){
       BookMeta[] memory ret = new BookMeta[](SenderToHashes[msg.sender].length);
       for (uint i = 0; i < SenderToHashes[msg.sender].length; i++) {
