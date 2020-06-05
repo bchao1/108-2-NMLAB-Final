@@ -15,6 +15,7 @@ function Bookshelf(props) {
                         filename={info.filename} 
                         filetype={info.filetype}
                         owned={props.owned}
+                        accounts={props.accounts}  contract={props.contract}
                     />
 
                 ))
