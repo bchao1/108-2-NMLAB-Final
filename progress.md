@@ -29,7 +29,6 @@
         filename: str, 
         main_ipfs_hash: str, 
         preview_ipfs_hash: str,
-        price: uint, author: str
     )
   ```
 

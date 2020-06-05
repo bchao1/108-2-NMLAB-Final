@@ -9,7 +9,6 @@ contract Publisher {
         string filetype;
         string main_ipfs_hash;
         string preview_ipfs_hash;
-        uint price;
         address payable author;
     }
 
@@ -38,15 +37,6 @@ contract Publisher {
       else {
         return false;
       }
-  }
-
-  function BuyBook(string memory preview_ipfs_hash) public payable returns (bool) {
-      address payable author = PrevHashToMeta[preview_ipfs_hash].author;
-      uint price = PrevHashToMeta[preview_ipfs_hash].price;
-      require(msg.value == price, "Incorrect Value");
-      author.transfer(msg.value);
-      ReaderToHashes[msg.sender].push(PrevHashToMeta[preview_ipfs_hash].main_ipfs_hash);
-      return true;
   }
 
   function Donate(string memory preview_ipfs_hash) public payable returns (bool) {

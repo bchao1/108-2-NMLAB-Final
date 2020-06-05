@@ -8,7 +8,6 @@ contract("Publisher", accounts => {
       "txt",
       "main_hash",
       "preview_hash",
-      100,
       accounts[0],
     ]);
 
@@ -16,16 +15,14 @@ contract("Publisher", accounts => {
     assert.equal(myUpload.length, 1, "Not Uploaded");
   });
   
-  it("Test BuyBook and GetMyCollect", async () => {
+  it("Test Donate and GetMyCollect", async () => {
     const instance = await Publisher.deployed();
-    const price = 1e9;
 
     await instance.Upload([
       "filename_.txt",
       "pdf",
       "main_hash_",
       "preview_hash_",
-      price,
       accounts[2],
     ]);
 
@@ -33,7 +30,9 @@ contract("Publisher", accounts => {
     // assert.equal(initialBalance_0, 100, 'accounts[0] false')
     const initialBalance_1 = await web3.eth.getBalance(accounts[0]);
     // assert.equal(initialBalance_1, 100, 'accounts[1] false')
-    var status = await instance.BuyBook("preview_hash_", {from: accounts[0], value: price});
+
+    const price = 1e9;
+    var status = await instance.Donate("preview_hash_", {from: accounts[0], value: price});
     assert(status);
 
     const finalBalance_0 = await web3.eth.getBalance(accounts[2]);
@@ -45,19 +44,17 @@ contract("Publisher", accounts => {
     // assert.equal(difference_0, price, "Incorrect transfer: author");
 
     var collection = await instance.GetMyCollect();
-    assert.equal(collection.length, 1, "Book Not Bought");
+    assert.equal(collection.length, 1, "Book Not Collected");
   }) 
     
   it("Test SearchByType", async () => {
     const instance = await Publisher.deployed();
-    const price = 1e9;
 
     await instance.Upload([
       "filename_ggg9.txt",
       "8889",
       "main_hash_ccd",
       "preview_hash_ccd",
-      price,
       accounts[2],
     ]);
     await instance.Upload([
@@ -65,7 +62,6 @@ contract("Publisher", accounts => {
         "88891",
         "main_hash_44d",
         "preview_hash_44d",
-        price,
         accounts[0],
       ]);
 
@@ -75,14 +71,12 @@ contract("Publisher", accounts => {
     
   it("Test SearchByName", async () => {
     const instance = await Publisher.deployed();
-    const price = 1e9;
 
     await instance.Upload([
       "filename_FUC_ggg.txt",
       "pseudo",
       "main_hash_55g",
       "preview_hash_55g",
-      price,
       accounts[2],
     ]);
       
@@ -91,7 +85,6 @@ contract("Publisher", accounts => {
         "pseudo",
         "main_hash_ccg",
         "preview_hash_ccg",
-        price,
         accounts[1],
       ]);
 
@@ -108,7 +101,6 @@ contract("Publisher", accounts => {
         "png",
         `main_hash_${i}`,
         `preview_hash_${i}`,
-        i + 100,
         accounts[0],
       ]);
     }
