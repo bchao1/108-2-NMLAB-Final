@@ -52,6 +52,7 @@ contract Publisher {
   function Donate(string memory preview_ipfs_hash) public payable returns (bool) {
       address payable author = PrevHashToMeta[preview_ipfs_hash].author;
       author.transfer(msg.value);
+      ReaderToHashes[msg.sender].push(PrevHashToMeta[preview_ipfs_hash].main_ipfs_hash);
       return true;
   }
 
