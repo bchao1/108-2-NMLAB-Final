@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
+import { Button } from "@material-ui/core";
 
 const numItems = 10;
 const testItems = Array(10).fill(
@@ -24,16 +25,22 @@ const styles = theme => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
-      borderColor: "white"
+      borderColor: "white",
     },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
+    blackText: {
+        color: "black",
+        backgroundColor: "white"
     },
-    whiteText: {
-        color: "white",
-    },
-    whiteBorder: {
-        borderColor: "white"
+    button: {
+        margin: theme.spacing(1),
+        backgroundColor: "white",
+        color: "black",
+        width: 100,
+        "&:hover": {
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid white"
+        }
     }
   });
 
@@ -42,7 +49,8 @@ class MarketPage extends Component {
         super(props);
         this.state = {
             items: [],
-            filetype: "all",
+            filetype_filter: "all",
+            filename_filter: ""
         };
     }
 
@@ -57,19 +65,23 @@ class MarketPage extends Component {
     }
 
     updateMarket = async() => {
-        
         const { accounts, contract } = this.props;
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
         if(items == null) items = [];
-        
-        //let items = testItems;
         this.setState({items: items});
     }
 
     handleFileTypeChange = e => {
         this.setState({
-            filetype: e.target.value,
+            filetype_filter: e.target.value,
+        })
+    }
+
+    handleFilenameChange = e => {
+        console.log(e.target.value);
+        this.setState({
+            filename_filter: e.target.value
         })
     }
 
@@ -85,14 +97,13 @@ class MarketPage extends Component {
         const { classes } = this.props;
         return (
             <Fragment>
-                <div class="select-bar">
+                <div className="select-bar">
                     <FormControl className={classes.formControl}>
                         <Select
-                            labelId="demo-simple-select-label"
-                            value={this.state.filetype}
+                            value={this.state.filetype_filter}
                             onChange={this.handleFileTypeChange}
                             variant = "outlined"
-                            className={classes.whiteText}
+                            className={classes.blackText}
                         >
                         <MenuItem value={"all"}>All</MenuItem>
                         <MenuItem value={"text"}>Text</MenuItem>
@@ -104,16 +115,22 @@ class MarketPage extends Component {
                         className={classes.formControl} 
                         type="search" 
                         variant = "outlined"
-                        InputProps={{className: classes.whiteText}}
+                        InputProps={{className: classes.blackText}}
+                        value={this.state.filename_filter}
+                        onChange={this.handleFilenameChange}
                     />
+                    <Button
+                        className={classes.button}
+                    >
+                        Filter
+                    </Button>
                 </div>
                 <div className="MarketPage">
                     {
-                        /*
+                        
                         bookshelfRows.map((row, idx) => (
                             <Bookshelf key={idx} fileInfo={row} />
                         ))
-                        */
                     }
                 </div>
             </Fragment>

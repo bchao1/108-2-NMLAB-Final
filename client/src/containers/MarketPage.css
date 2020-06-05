@@ -16,7 +16,9 @@
 .select-bar
 {
     margin: 0 auto;
+    margin-top: 1%;
     width: 80%;
     display: flex;
+    justify-content: center;
     color: white;
 }
