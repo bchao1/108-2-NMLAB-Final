@@ -52,7 +52,7 @@ class MarketPage extends Component {
             <div className="MarketPage">
                 {
                     bookshelfRows.map((row, idx) => (
-                        <Bookshelf key={idx} fileInfo={row} />
+                        <Bookshelf key={idx} fileInfo={row} owned={false} />
                     ))
                 }
             </div>

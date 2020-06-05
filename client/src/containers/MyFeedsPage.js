@@ -44,7 +44,7 @@ class MyFeedsPage extends Component {
                     My Upload
                     {
                         uploadBookshelfRows.map((row, idx) => (
-                            <Bookshelf key={idx} fileInfo={row} />
+                            <Bookshelf key={idx} fileInfo={row} owned={true}/>
                         ))
                     }
                 </div>
@@ -52,7 +52,7 @@ class MyFeedsPage extends Component {
                     My Collection
                     {
                         collectBookshelfRows.map((row, idx) => (
-                            <Bookshelf key={idx} fileInfo={row} />
+                            <Bookshelf key={idx} fileInfo={row} owned={true} />
                         ))
                     }
                 </div>
