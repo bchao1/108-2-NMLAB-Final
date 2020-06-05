@@ -9,12 +9,6 @@ let Jimp = require('jimp');
 const ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
 
-const styles = {
-    topicText: {
-        color: "white"
-    }
-}
-
 const previewCharNum = 500;
 
 class UploadPage extends Component {
@@ -107,18 +101,18 @@ class UploadPage extends Component {
 
     createPreviewFileBuffer = async mainBuffer => {
         let previewBuffer = null;
-        if(this.state.fileType == 'text') {
+        if(this.state.fileType === 'text') {
             let allContent = mainBuffer.toString('utf8');
             let previewContent = allContent.substring(0, previewCharNum);
             previewContent += '\nSubscribe to unlock all content';
             previewBuffer = Buffer.from(previewContent, 'utf8');
         }
-        else if(this.state.fileType == 'image') {
+        else if(this.state.fileType === 'image') {
             let img = await Jimp.read(mainBuffer.slice());
             img.blur(10);
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
-        else if(this.state.fileType == 'pdf') {
+        else if(this.state.fileType === 'pdf') {
             let pdfDoc = await PDFDocument.load(mainBuffer.slice());
             let previewDoc = await PDFDocument.create();
             let [firstPage] = await previewDoc.copyPages(pdfDoc, [0]); // extract first page
@@ -131,9 +125,9 @@ class UploadPage extends Component {
 
     getFileTypes = typeStr => {
         let filetype = typeStr.split('/'); // return type / subtype
-        if(filetype[0] == 'text') return 'text';
-        else if(filetype[0] == 'image') return 'image';
-        else if(filetype[1] == 'pdf') return 'pdf';
+        if(filetype[0] === 'text') return 'text';
+        else if(filetype[0] === 'image') return 'image';
+        else if(filetype[1] === 'pdf') return 'pdf';
         return null;
     }
 
