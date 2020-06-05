@@ -78,7 +78,7 @@ contract("Publisher", accounts => {
     const price = 1e9;
 
     await instance.Upload([
-      "filename_FUCK_ggg.txt",
+      "filename_FUC_ggg.txt",
       "pseudo",
       "main_hash_55g",
       "preview_hash_55g",
@@ -87,7 +87,7 @@ contract("Publisher", accounts => {
     ]);
       
     await instance.Upload([
-        "filename_FUCK_ggge.txt",
+        "filename_FUCKYOU_ggge.txt",
         "pseudo",
         "main_hash_ccg",
         "preview_hash_ccg",
@@ -95,7 +95,7 @@ contract("Publisher", accounts => {
         accounts[1],
       ]);
 
-    var collection = await instance.SearchByName("filename_FUCK_ggge.txt");
+    var collection = await instance.SearchByName("FUCKYOU");
     assert.equal(collection.length, 1, "Book Not Searched");
   }) 
 
