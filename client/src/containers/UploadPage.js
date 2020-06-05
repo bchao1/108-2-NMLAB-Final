@@ -50,7 +50,6 @@ class UploadPage extends Component {
             this.state.fileType,
             mainIPFSHash,
             previewIPFSHash,
-            0, // TODO
             accounts[0],
         ]).send({from: accounts[0]});
         console.log("upload status", status);
