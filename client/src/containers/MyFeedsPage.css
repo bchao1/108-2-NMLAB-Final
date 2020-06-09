@@ -1,0 +1,20 @@
+.MyFeedsPage {
+    margin: 0 auto;
+    margin-top: 2%;
+    width: 80%;
+    height: 80%;
+    /*
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-family: 'Rajdhani';
+    */
+    border-radius: 8px;
+    overflow-y: scroll;
+    box-shadow: 0 -20px 50px -50px white inset;
+}
+
+.MyFeedsSection {
+    font-size: large;
+    color: white;
+    margin: 5%;
+}

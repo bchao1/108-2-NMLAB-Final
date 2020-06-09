@@ -48,11 +48,15 @@ class MarketPage extends Component {
     }
     render() {  
         let bookshelfRows = this.splitRows();
+        const { accounts, contract } = this.props;
         return (
             <div className="MarketPage">
                 {
                     bookshelfRows.map((row, idx) => (
-                        <Bookshelf key={idx} fileInfo={row} />
+                        <Bookshelf 
+                            key={idx} fileInfo={row} owned={false} 
+                            accounts={accounts}  contract={contract}
+                        />
                     ))
                 }
             </div>

@@ -14,6 +14,8 @@ function Bookshelf(props) {
                         main_ipfs_hash={info.main_ipfs_hash} 
                         filename={info.filename} 
                         filetype={info.filetype}
+                        owned={props.owned}
+                        accounts={props.accounts}  contract={props.contract}
                     />
 
                 ))

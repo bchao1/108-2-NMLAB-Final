@@ -57,12 +57,12 @@
 ## Progress
 - 5/26
     - Finish basic support
-        - Finish Buy/Donate
-        - Finish My feeds
+        - [x] Finish Buy/Donate
+        - [x] Finish My feeds
             - Show main file hash
-        - Market no main file hash
-        - Upload don't show file hash, show success message
-        - Remove logout
+        - [x] Market no main file hash
+        - [x] Upload don't show file hash, show success message
+        - [x] Remove logout
     - Other
         - [x] Different "displayable" file types
             - `application/pdf`
