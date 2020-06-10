@@ -113,4 +113,23 @@ contract("Publisher", accounts => {
     }
     // TODO
   })
+
+  it("Test GetAuthorInfo & SetAuthorInfo", async () => {
+    const instance = await Publisher.deployed();
+
+    var info = await instance.GetAuthorInfo(accounts[0]);
+    assert.equal(info.author, accounts[0]);
+    assert.equal(info.name, accounts[0].toLowerCase());
+    
+    await instance.SetAuthorInfo([
+        accounts[0],
+        "Iam8787"
+    ]);
+    
+    var getinfo = await instance.GetAuthorInfo(accounts[0]);
+    assert.equal(getinfo.author, accounts[0]);
+    assert.equal(getinfo.name, "Iam8787");
+  }) 
+    
+    
 });

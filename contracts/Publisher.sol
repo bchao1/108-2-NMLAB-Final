@@ -12,12 +12,19 @@ contract Publisher {
         address payable author;
     }
 
+    struct AuthorMeta {
+        address author;
+        string name;
+    }
+
   string[] Hashes;
   mapping (string => BookMeta) HashToMeta;
   mapping (string => BookMeta) PrevHashToMeta;
   mapping (string => bool) isValid;
+  mapping (address => bool) AuthorIsValid;
   mapping (address => string[]) SenderToHashes;
   mapping (address => string[]) ReaderToHashes;
+  mapping (address => AuthorMeta) AuthorToMeta;
   uint randNonce = 0;
 
   function randMod(uint _modulus) internal returns(uint) {
@@ -73,33 +80,33 @@ contract Publisher {
       return random;
   }
 
-    function indexOf(string memory _haystack, string memory _needle) public pure returns (int)
-    {
-        bytes memory h = bytes(_haystack);
-        bytes memory n = bytes(_needle);
-        if(h.length < 1 || n.length < 1 || (n.length > h.length))
-            return -1;
-        else if(h.length > (2**128 - 1))
-            return -1;
-        else
-        {
-            uint subindex = 0;
-            for (uint i = 0; i < h.length; i ++)
-            {
-                if (h[i] == n[0]) // found the first char of b
-                {
-                    subindex = 1;
-                    while(subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]) // search until the chars don't match or until we reach the end of a or b
-                    {
-                        subindex++;
-                    }
-                    if(subindex == n.length)
-                        return int(i);
-                }
-            }
-            return -1;
-        }
-    }
+  function indexOf(string memory _haystack, string memory _needle) public pure returns (int)
+  {
+      bytes memory h = bytes(_haystack);
+      bytes memory n = bytes(_needle);
+      if(h.length < 1 || n.length < 1 || (n.length > h.length))
+          return -1;
+      else if(h.length > (2**128 - 1))
+          return -1;
+      else
+      {
+          uint subindex = 0;
+          for (uint i = 0; i < h.length; i ++)
+          {
+              if (h[i] == n[0]) // found the first char of b
+              {
+                  subindex = 1;
+                  while(subindex < n.length && (i + subindex) < h.length && h[i + subindex] == n[subindex]) // search until the chars don't match or until we reach the end of a or b
+                  {
+                      subindex++;
+                  }
+                  if(subindex == n.length)
+                      return int(i);
+              }
+          }
+          return -1;
+      }
+  }
 
   function SearchByName(string memory keyword) public view returns (BookMeta[] memory){
       uint[] memory indices = new uint[](Hashes.length);
@@ -138,5 +145,37 @@ contract Publisher {
           ret[i] = HashToMeta[Hashes[indices[i]]];
       }
       return ret;
+  }
+
+  function toString(address _addr) public pure returns(string memory)
+  {
+      bytes32 value = bytes32(uint256(_addr));
+      bytes memory alphabet = "0123456789abcdef";
+
+      bytes memory str = new bytes(42);
+      str[0] = '0';
+      str[1] = 'x';
+      for (uint256 i = 0; i < 20; i++) {
+          str[2+i*2] = alphabet[uint8(value[i + 12] >> 4)];
+          str[3+i*2] = alphabet[uint8(value[i + 12] & 0x0f)];
+      }
+      return string(str);
+  }
+
+  function GetAuthorInfo(address author) public view returns (AuthorMeta memory){
+      if (!AuthorIsValid[author]){
+          AuthorMeta memory ret = AuthorMeta(author, toString(author));
+          return ret;
+      } else {
+          return AuthorToMeta[author];
+      }
+  }
+
+  function SetAuthorInfo(AuthorMeta memory newmeta) public{
+      require(newmeta.author == msg.sender, "Invalid address to set info");
+      if (!AuthorIsValid[msg.sender]){
+          AuthorIsValid[msg.sender] = true;
+      }
+      AuthorToMeta[msg.sender] = newmeta;
   }
 }
