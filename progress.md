@@ -30,9 +30,19 @@
         main_ipfs_hash: str, 
         preview_ipfs_hash: str,
     )
+    AuthorMeta = (
+        address: address,
+        name: str,
+    )
   ```
 
 ### Methods
+- GetAuthorInfo
+    - input: address
+    - output: AuthorMeta
+
+- SetAuthorInfo
+    - input: AuthorMeta
 
 - Upload
     - input: BookMeta
@@ -55,6 +65,14 @@
     - output: BookMeta - main_ipfs_hash
     
 ## Progress
+- 6/9
+    - 改 donate 單位
+    - author 資料頁
+        - 前端
+        - contract
+    - filter 接 contract
+    - MyFeedsPage 刪除重複的
+    - 開始頁面
 - 5/26
     - Finish basic support
         - [x] Finish Buy/Donate
