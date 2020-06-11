@@ -115,9 +115,11 @@ contract Publisher {
   function SearchByNameAndType(string memory keyword, string memory target_type) public view returns (BookMeta[] memory){
       uint[] memory indices = new uint[](Hashes.length);
       uint actual_num = 0;
+      bool no_search_type = (bytes(target_type).length == 0);
+      bool no_search_name = (bytes(keyword).length == 0);
       for (uint i = 0; i < Hashes.length; i++) {
-          if (compareStrings(HashToMeta[Hashes[i]].filetype, target_type) || (bytes(target_type).length == 0)){
-              if (indexOf(HashToMeta[Hashes[i]].filename, keyword)>=0 || (bytes(keyword).length == 0)){
+          if (no_search_type || compareStrings(HashToMeta[Hashes[i]].filetype, target_type)){
+              if (no_search_name || indexOf(HashToMeta[Hashes[i]].filename, keyword)>=0){
                 indices[actual_num] = i;
                 actual_num = actual_num + 1;
               }
