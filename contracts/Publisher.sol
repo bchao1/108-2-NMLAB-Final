@@ -108,38 +108,61 @@ contract Publisher {
       }
   }
 
-  function SearchByName(string memory keyword) public view returns (BookMeta[] memory){
-      uint[] memory indices = new uint[](Hashes.length);
-      uint actual_num = 0;
-      for (uint i = 0; i < Hashes.length; i++) {
-          if (indexOf(HashToMeta[Hashes[i]].filename, keyword)>=0){
-              indices[actual_num] = i;
-              actual_num = actual_num + 1;
-          }
-      }
-    //   require(actual_num>0, "No Search found");
-      BookMeta[] memory ret = new BookMeta[](actual_num);
-      for (uint i = 0; i < actual_num; i++) {
-          ret[i] = HashToMeta[Hashes[indices[i]]];
-      }
-      return ret;
-  }
+//   function SearchByName(string memory keyword) public view returns (BookMeta[] memory){
+//       uint[] memory indices = new uint[](Hashes.length);
+//       uint actual_num = 0;
+//       for (uint i = 0; i < Hashes.length; i++) {
+//           if (indexOf(HashToMeta[Hashes[i]].filename, keyword)>=0){
+//               indices[actual_num] = i;
+//               actual_num = actual_num + 1;
+//           }
+//       }
+//       BookMeta[] memory ret = new BookMeta[](actual_num);
+//       for (uint i = 0; i < actual_num; i++) {
+//           ret[i] = HashToMeta[Hashes[indices[i]]];
+//       }
+//       return ret;
+//   }
 
   function compareStrings(string memory a, string memory b) public pure returns (bool) {
       return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
   }
 
 
-  function SearchByType(string memory target_type) public view returns (BookMeta[] memory){
+//   function SearchByType(string memory target_type) public view returns (BookMeta[] memory){
+//       uint[] memory indices = new uint[](Hashes.length);
+//       uint actual_num = 0;
+//       for (uint i = 0; i < Hashes.length; i++) {
+//           if (compareStrings(HashToMeta[Hashes[i]].filetype, target_type)){
+//               indices[actual_num] = i;
+//               actual_num = actual_num + 1;
+//           }
+//       }
+//     //   require(actual_num>0, "No Search found");
+//       BookMeta[] memory ret = new BookMeta[](actual_num);
+//       for (uint i = 0; i < actual_num; i++) {
+//           ret[i] = HashToMeta[Hashes[indices[i]]];
+//       }
+//       return ret;
+//   }
+
+  function SearchByNameAndType(string memory keyword, string memory target_type) public view returns (BookMeta[] memory){
+    //   if (bytes(target_type).length == 0){
+    //       return SearchByName(keyword);
+    //   }
+    //   if (bytes(keyword).length == 0){
+    //       return SearchByType(target_type);
+    //   }
       uint[] memory indices = new uint[](Hashes.length);
       uint actual_num = 0;
       for (uint i = 0; i < Hashes.length; i++) {
-          if (compareStrings(HashToMeta[Hashes[i]].filetype, target_type)){
-              indices[actual_num] = i;
-              actual_num = actual_num + 1;
+          if (compareStrings(HashToMeta[Hashes[i]].filetype, target_type) || (bytes(target_type).length == 0)){
+              if (indexOf(HashToMeta[Hashes[i]].filename, keyword)>=0 || (bytes(keyword).length == 0)){
+                indices[actual_num] = i;
+                actual_num = actual_num + 1;
+              }
           }
       }
-    //   require(actual_num>0, "No Search found");
       BookMeta[] memory ret = new BookMeta[](actual_num);
       for (uint i = 0; i < actual_num; i++) {
           ret[i] = HashToMeta[Hashes[indices[i]]];
