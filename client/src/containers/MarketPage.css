@@ -1,8 +1,8 @@
 .MarketPage {
     margin: 0 auto;
-    margin-top: 2%;
+    margin-top: 1%;
     width: 80%;
-    height: 80%;
+    height: 75%;
     /*
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 8px;
@@ -11,4 +11,14 @@
     border-radius: 8px;
     overflow-y: scroll;
     box-shadow: 0 -20px 50px -50px white inset;
+}
+
+.select-bar
+{
+    margin: 0 auto;
+    margin-top: 1%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    color: white;
 }
