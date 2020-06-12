@@ -79,7 +79,6 @@ class MarketPage extends Component {
     }
 
     handleFilenameChange = e => {
-        console.log(e.target.value);
         this.setState({
             filename_filter: e.target.value
         })
@@ -89,8 +88,8 @@ class MarketPage extends Component {
         const { contract } = this.props;
         const filetype_filter = this.state.filetype_filter === "all" ? "" : this.state.filetype_filter;
         var items = await contract.methods.SearchByNameAndType(
+            this.state.filename_filter,
             filetype_filter, 
-            this.state.filename_filter
         ).call();
         if(items == null) items = [];
         this.setState({items: items});
