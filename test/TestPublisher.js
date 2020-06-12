@@ -58,14 +58,14 @@ contract("Publisher", accounts => {
       accounts[2],
     ]);
     await instance.Upload([
-        "filename_FUCK_gwwdwgg.txt",
+        "filename_QQQ_gwwdwgg.txt",
         "88891",
         "main_hash_44d",
         "preview_hash_44d",
         accounts[0],
       ]);
 
-    var collection = await instance.SearchByType("88891");
+    var collection = await instance.SearchByNameAndType("", "88891");
     assert.equal(collection.length, 1, "Book Not Searched");
   }) 
     
@@ -73,7 +73,7 @@ contract("Publisher", accounts => {
     const instance = await Publisher.deployed();
 
     await instance.Upload([
-      "filename_FUC_ggg.txt",
+      "filename_HAP_ggg.txt",
       "pseudo",
       "main_hash_55g",
       "preview_hash_55g",
@@ -81,14 +81,23 @@ contract("Publisher", accounts => {
     ]);
       
     await instance.Upload([
-        "filename_FUCKYOU_ggge.txt",
+        "filename_HAPPY_ggge.txt",
         "pseudo",
         "main_hash_ccg",
         "preview_hash_ccg",
         accounts[1],
       ]);
+      
+    await instance.Upload([
+        "filename_HAPPY_gggeooo.txt",
+        "none",
+        "main_hash_dog",
+        "preview_hash_dog",
+        accounts[1],
+    ]);
 
-    var collection = await instance.SearchByName("FUCKYOU");
+
+    var collection = await instance.SearchByNameAndType("HAPPY", "none");
     assert.equal(collection.length, 1, "Book Not Searched");
   }) 
 
@@ -113,4 +122,23 @@ contract("Publisher", accounts => {
     }
     // TODO
   })
+
+  it("Test GetAuthorInfo & SetAuthorInfo", async () => {
+    const instance = await Publisher.deployed();
+
+    var info = await instance.GetAuthorInfo(accounts[0]);
+    assert.equal(info.author, accounts[0]);
+    assert.equal(info.name, accounts[0].toLowerCase());
+    
+    await instance.SetAuthorInfo([
+        accounts[0],
+        "Iam8787"
+    ]);
+    
+    var getinfo = await instance.GetAuthorInfo(accounts[0]);
+    assert.equal(getinfo.author, accounts[0]);
+    assert.equal(getinfo.name, "Iam8787");
+  }) 
+    
+    
 });

@@ -73,6 +73,7 @@ class UploadPage extends Component {
         // file.name = file original upload name
         // file.size 
         const fileType = this.getFileTypes(file.type);
+        console.log(fileType);
         if(fileType === null) {
             alert("Invalid file type!");
             return;
@@ -154,14 +155,6 @@ class UploadPage extends Component {
                         <div className="footer-key"><pre>File name</pre></div>
                         <div className="footer-value">{this.state.fileName}</div>
                     </div>
-                    {/* <div className="footer-field">
-                        <div className="footer-key">Main File CID</div> 
-                        <div className="footer-value">{this.state.mainIPFSHash}</div>
-                    </div>
-                    <div className="footer-field">
-                        <div className="footer-key">Preview File CID</div> 
-                        <div className="footer-value">{this.state.previewIPFSHash}</div>
-                    </div> */}
                     <div className="footer-field">
                         <div className="footer-key"><pre>File type</pre></div> 
                         <div className="footer-value">{this.state.fileType}</div>
