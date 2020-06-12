@@ -70,8 +70,8 @@
     - author 資料頁
         - 前端
         - contract
-    - filter 接 contract
-    - MyFeedsPage 刪除重複的
+    - [x] filter 接 contract
+    - [x] MyFeedsPage 刪除重複的
     - 開始頁面
 - 5/26
     - Finish basic support
