@@ -85,6 +85,17 @@ class MarketPage extends Component {
         })
     }
 
+    onFilterBtnClick = async () => {
+        const { contract } = this.props;
+        const filetype_filter = this.state.filetype_filter === "all" ? "" : this.state.filetype_filter;
+        var items = await contract.methods.SearchByNameAndType(
+            filetype_filter, 
+            this.state.filename_filter
+        ).call();
+        if(items == null) items = [];
+        this.setState({items: items});
+    }
+
     splitRows = () => {
         let rows = [], chunk = 4, i, j;
         for(i = 0,j = this.state.items.length; i < j; i += chunk) {
@@ -121,6 +132,7 @@ class MarketPage extends Component {
                     />
                     <Button
                         className={classes.button}
+                        onClick={this.onFilterBtnClick}
                     >
                         Filter
                     </Button>
