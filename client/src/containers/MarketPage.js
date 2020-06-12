@@ -1,6 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+// material ui imports
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+
 import Bookshelf from "../components/Bookshelf";
 import "./MarketPage.css";
+import { Button } from "@material-ui/core";
 
 const numItems = 10;
 const testItems = Array(10).fill(
@@ -12,10 +21,37 @@ const testItems = Array(10).fill(
     }
 );
 
+const styles = theme => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+      borderColor: "white",
+    },
+    blackText: {
+        color: "black",
+        backgroundColor: "white"
+    },
+    button: {
+        margin: theme.spacing(1),
+        backgroundColor: "white",
+        color: "black",
+        width: 100,
+        "&:hover": {
+            backgroundColor: "black",
+            color: "white",
+            border: "1px solid white"
+        }
+    }
+  });
+
 class MarketPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {items: []};
+        this.state = {
+            items: [],
+            filetype_filter: "all",
+            filename_filter: ""
+        };
     }
 
     componentDidMount = async () => {
@@ -29,14 +65,24 @@ class MarketPage extends Component {
     }
 
     updateMarket = async() => {
-        
         const { accounts, contract } = this.props;
         if (!accounts || !contract)　return;
         var items = await contract.methods.GetRandom(numItems).call();
         if(items == null) items = [];
-        
-        //let items = testItems;
         this.setState({items: items});
+    }
+
+    handleFileTypeChange = e => {
+        this.setState({
+            filetype_filter: e.target.value,
+        })
+    }
+
+    handleFilenameChange = e => {
+        console.log(e.target.value);
+        this.setState({
+            filename_filter: e.target.value
+        })
     }
 
     splitRows = () => {
@@ -48,9 +94,38 @@ class MarketPage extends Component {
     }
     render() {  
         let bookshelfRows = this.splitRows();
-        const { accounts, contract } = this.props;
+        const { accounts, contract, classes } = this.props;
         return (
-            <div className="MarketPage">
+            <Fragment>
+                <div className="select-bar">
+                    <FormControl className={classes.formControl}>
+                        <Select
+                            value={this.state.filetype_filter}
+                            onChange={this.handleFileTypeChange}
+                            variant = "outlined"
+                            className={classes.blackText}
+                        >
+                        <MenuItem value={"all"}>All</MenuItem>
+                        <MenuItem value={"text"}>Text</MenuItem>
+                        <MenuItem value={"pdf"}>PDF</MenuItem>
+                        <MenuItem value={"image"}>Image</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField 
+                        className={classes.formControl} 
+                        type="search" 
+                        variant = "outlined"
+                        InputProps={{className: classes.blackText}}
+                        value={this.state.filename_filter}
+                        onChange={this.handleFilenameChange}
+                    />
+                    <Button
+                        className={classes.button}
+                    >
+                        Filter
+                    </Button>
+                </div>
+                <div className="MarketPage">
                 {
                     bookshelfRows.map((row, idx) => (
                         <Bookshelf 
@@ -59,9 +134,10 @@ class MarketPage extends Component {
                         />
                     ))
                 }
-            </div>
+                </div>
+            </Fragment>
         )
     }
 }
 
-export default MarketPage;
+export default withStyles(styles)(MarketPage);
