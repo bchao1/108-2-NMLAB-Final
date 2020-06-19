@@ -79,10 +79,20 @@ class MarketPage extends Component {
     }
 
     handleFilenameChange = e => {
-        console.log(e.target.value);
         this.setState({
             filename_filter: e.target.value
         })
+    }
+
+    onFilterBtnClick = async () => {
+        const { contract } = this.props;
+        const filetype_filter = this.state.filetype_filter === "all" ? "" : this.state.filetype_filter;
+        var items = await contract.methods.SearchByNameAndType(
+            this.state.filename_filter,
+            filetype_filter, 
+        ).call();
+        if(items == null) items = [];
+        this.setState({items: items});
     }
 
     splitRows = () => {
@@ -94,7 +104,7 @@ class MarketPage extends Component {
     }
     render() {  
         let bookshelfRows = this.splitRows();
-        const { classes } = this.props;
+        const { accounts, contract, classes } = this.props;
         return (
             <Fragment>
                 <div className="select-bar">
@@ -121,17 +131,20 @@ class MarketPage extends Component {
                     />
                     <Button
                         className={classes.button}
+                        onClick={this.onFilterBtnClick}
                     >
                         Filter
                     </Button>
                 </div>
                 <div className="MarketPage">
-                    {
-                        
-                        bookshelfRows.map((row, idx) => (
-                            <Bookshelf key={idx} fileInfo={row} />
-                        ))
-                    }
+                {
+                    bookshelfRows.map((row, idx) => (
+                        <Bookshelf 
+                            key={idx} fileInfo={row} owned={false} 
+                            accounts={accounts}  contract={contract}
+                        />
+                    ))
+                }
                 </div>
             </Fragment>
         )

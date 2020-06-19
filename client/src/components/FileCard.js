@@ -25,12 +25,15 @@ class FileCard extends React.Component{
         })
     }
 
-    onDonateClick = () => {
-        alert("DONATE!");
-    }
-
-    onBuyClick = () => {
-        alert("BUY!");
+    onDonateClick = async () => {
+        const { accounts, contract } = this.props;
+        const value = parseFloat(this.state.donate);
+        console.log(value);
+        const status = await contract.methods.Donate(this.props.preview_ipfs_hash).send({
+            from: accounts[0], 
+            value: value,
+        });
+        console.log(status);
     }
 
     onPreviewClick = async () => {
@@ -51,6 +54,25 @@ class FileCard extends React.Component{
 
     
     render(){
+        const footer = this.props.owned ? 
+            <div className={styles.footerRow}>
+                <a href={`http://ntuee.org:9090/ipfs/${this.props.main_ipfs_hash}`} class={styles.download_btn}> Download </a>
+            </div> : 
+            <div className={styles.footerRow}>
+                <input
+                    className={styles.left}
+                    type="text"
+                    value={this.state.donate}
+                    onChange={this.handleInputChange}
+                />
+                <div 
+                    className={styles.right}
+                    onClick={this.onDonateClick}
+                >
+                    Donate
+                </div>
+            </div>
+
         return(
             <div className={styles.Filecard}>
                 <Dialog
@@ -64,35 +86,13 @@ class FileCard extends React.Component{
                 </Dialog>
 
                 <div className={styles.file} onClick={this.onPreviewClick}>
-                    <div className={styles.key}>File hash</div>
-                    <div className={styles.value}>{this.props.main_ipfs_hash}</div>
-                    <div className={styles.key}>File name</div>
+                    {/* <div className={styles.key}>File hash</div> */}
+                    {/* <div className={styles.value}>{this.props.main_ipfs_hash}</div> */}
+                    {/* <div className={styles.key}>File name</div> */}
                     <div className={styles.value}>{this.props.filename}</div>
                 </div>
                 <div className={styles.footer}>
-                    <div className={styles.footerRow}>
-                        <input
-                            className={styles.left}
-                            type="text"
-                            value={this.state.donate}
-                            onChange={this.handleInputChange}
-                        />
-                        <div 
-                            className={styles.right}
-                            onClick={this.onDonateClick}
-                        >
-                            Donate
-                        </div>
-                    </div>
-                    <div className={styles.footerRow}>
-                        <div className={styles.left}></div>
-                        <div 
-                            className={styles.right}
-                            onClick={this.onBuyClick}
-                        >
-                            Buy
-                        </div>
-                    </div> 
+                    {footer}
                 </div>
             </div>
         )

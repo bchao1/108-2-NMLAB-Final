@@ -26,10 +26,12 @@
 {
     font-size: 1.5rem;
     font-weight: 1000;
+    margin-bottom: 5%;
 }
 
 .value
 {
+    margin-top: 5%;
     margin-bottom: 5%;
 }
 
@@ -44,6 +46,9 @@
 {
     width: 100%;
     display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 1rem;
     margin-bottom: 5%;
     word-wrap: break-word;
@@ -59,10 +64,21 @@
     margin-left:5%;
     width: 35%;
     border: 1px solid white;
-
+}
+.right:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
 }
 
-.right:hover {
+.download_btn
+{
+    color: white;
+    text-decoration: none;
+    padding: 3%;
+    border: 1px solid white;
+}
+.download_btn:hover {
     background-color: white;
     color: black;
     cursor: pointer;

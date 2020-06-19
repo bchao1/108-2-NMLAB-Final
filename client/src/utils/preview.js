@@ -11,7 +11,6 @@ const styles = {
 function getPreviewContent(buffer, type){
     if(type === 'text') return buffer.toString();
     else if(type === 'image') {
-        console.log(buffer);
         let previewContent = 'data:image/jpeg;base64,' + buffer.toString('base64')
         return (
             <img 
