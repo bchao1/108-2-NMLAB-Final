@@ -24,9 +24,19 @@ class MyFeedsPage extends Component {
         if (!accounts || !contract)　return;  // state valid
         var myUpload = await contract.methods.GetMyUpload().call();
         var myCollect = await contract.methods.GetMyCollect().call();
-        console.log(myUpload, myCollect);
-        this.setState({myUpload: myUpload, myCollect: myCollect});
+        this.setState({
+            myUpload: this.getUniqueItems(myUpload), 
+            myCollect: this.getUniqueItems(myCollect)
+        });
     }
+
+    getUniqueItems = (arr) => (
+        arr.filter((val, index, self) => 
+            index === self.findIndex((t) => (
+                t[2] === val[2] && t[3] === val[3]
+            ))
+        )
+    )
     
     splitRows = (items) => {
         let rows = [], chunk = 4, i, j;
