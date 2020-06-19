@@ -27,10 +27,11 @@ class FileCard extends React.Component{
 
     onDonateClick = async () => {
         const { accounts, contract } = this.props;
-        const value = parseFloat(this.state.donate);
+        const eth_value = parseFloat(this.state.donate);
+        const wei_value = 1e18 * eth_value;
         const status = await contract.methods.Donate(this.props.preview_ipfs_hash).send({
             from: accounts[0], 
-            value: value,
+            value: eth_value,
         });
     }
 
@@ -61,6 +62,7 @@ class FileCard extends React.Component{
                     className={styles.left}
                     type="text"
                     value={this.state.donate}
+                    placeholder={"unit: ETH"} // 1e18 wei = 1 ETH
                     onChange={this.handleInputChange}
                 />
                 <div 

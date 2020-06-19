@@ -51,7 +51,7 @@ class App extends Component {
           <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
           <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
           <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/upload">Account</NavLink></div>
+          <div className="button"><NavLink style={styles.link} to="/account">Account</NavLink></div>
         </div>
         <Switch>
           <Route 
