@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import UploadPage from "./containers/UploadPage";
 import MarketPage from "./containers/MarketPage";
 import MyFeedsPage from "./containers/MyFeedsPage";
-import LoginPage from "./containers/LoginPage";
 import AccountPage from "./containers/AccountPage";
 //import Navigation from "./components/Navigation";
 import "./App.css";
