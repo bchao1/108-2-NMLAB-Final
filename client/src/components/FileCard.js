@@ -28,12 +28,10 @@ class FileCard extends React.Component{
     onDonateClick = async () => {
         const { accounts, contract } = this.props;
         const value = parseFloat(this.state.donate);
-        console.log(value);
         const status = await contract.methods.Donate(this.props.preview_ipfs_hash).send({
             from: accounts[0], 
             value: value,
         });
-        console.log(status);
     }
 
     onPreviewClick = async () => {
@@ -56,7 +54,7 @@ class FileCard extends React.Component{
     render(){
         const footer = this.props.owned ? 
             <div className={styles.footerRow}>
-                <a href={`http://ntuee.org:9090/ipfs/${this.props.main_ipfs_hash}`} class={styles.download_btn}> Download </a>
+                <a href={`http://ntuee.org:9090/ipfs/${this.props.main_ipfs_hash}`} className={styles.download_btn}> Download </a>
             </div> : 
             <div className={styles.footerRow}>
                 <input
