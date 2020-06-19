@@ -41,7 +41,7 @@ class UploadPage extends Component {
         console.log(ipfs);
         const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
         const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
-        
+        console.log(mainIPFSHash, previewIPFSHash);
         
         const { accounts, contract } = this.props;
         console.log(accounts);

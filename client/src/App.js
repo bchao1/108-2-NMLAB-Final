@@ -6,6 +6,7 @@ import UploadPage from "./containers/UploadPage";
 import MarketPage from "./containers/MarketPage";
 import MyFeedsPage from "./containers/MyFeedsPage";
 import LoginPage from "./containers/LoginPage";
+import AccountPage from "./containers/AccountPage";
 //import Navigation from "./components/Navigation";
 import "./App.css";
 import { NavLink, Switch, Route } from "react-router-dom";
@@ -50,6 +51,7 @@ class App extends Component {
           <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
           <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
           <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
+          <div className="button"><NavLink style={styles.link} to="/upload">Account</NavLink></div>
         </div>
         <Switch>
           <Route 
@@ -63,6 +65,10 @@ class App extends Component {
           <Route 
             path="/upload" 
             component={() => <UploadPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
+          </Route>
+          <Route 
+            path="/account" 
+            component={() => <AccountPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
           </Route>
         </Switch>
       </div>
