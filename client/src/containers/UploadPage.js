@@ -9,12 +9,6 @@ let Jimp = require('jimp');
 const ipfsClient = require('ipfs-http-client');
 const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
 
-const styles = {
-    topicText: {
-        color: "white"
-    }
-}
-
 const previewCharNum = 500;
 
 class UploadPage extends Component {
@@ -39,31 +33,36 @@ class UploadPage extends Component {
         //Send to ipfs server node
         console.log(ipfs.getEndpointConfig());
         console.log(ipfs);
-        const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
-        const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
-        
-        
-        const { accounts, contract } = this.props;
-        console.log(accounts);
-        let status = await contract.methods.Upload([
-            this.state.fileName,
-            this.state.fileType,
-            mainIPFSHash,
-            previewIPFSHash,
-            0, // TODO
-            accounts[0],
-        ]).send({from: accounts[0]});
-        console.log("upload status", status);
-        
-        this.setState({
-            mainIPFSHash: mainIPFSHash,
-            previewIPFSHash: previewIPFSHash,
-        })
-        console.log("FINISH!");
+
+        try {
+            const mainIPFSHash = await this.uploadFile(this.state.buffer, "main");
+            const previewIPFSHash = await this.uploadFile(this.state.previewBuffer, "preview");
+            
+            const { accounts, contract } = this.props;
+            console.log(accounts);
+            let status = await contract.methods.Upload([
+                this.state.fileName,
+                this.state.fileType,
+                mainIPFSHash,
+                previewIPFSHash,
+                accounts[0],
+            ]).send({from: accounts[0]});
+            console.log("upload status", status);
+            
+            this.setState({
+                mainIPFSHash: mainIPFSHash,
+                previewIPFSHash: previewIPFSHash,
+            })
+            console.log("FINISH!");
+        } catch (err) {
+            console.log(err);
+        }
+
     }
 
     uploadFile = async(buffer, statePrefix) => {
-        const result = await ipfs.add(buffer).next();
+        var result = await ipfs.add(buffer).next();            
+        console.log(result);
         return result.value.path;
     }
 
@@ -74,6 +73,7 @@ class UploadPage extends Component {
         // file.name = file original upload name
         // file.size 
         const fileType = this.getFileTypes(file.type);
+        console.log(fileType);
         if(fileType === null) {
             alert("Invalid file type!");
             return;
@@ -102,18 +102,18 @@ class UploadPage extends Component {
 
     createPreviewFileBuffer = async mainBuffer => {
         let previewBuffer = null;
-        if(this.state.fileType == 'text') {
+        if(this.state.fileType === 'text') {
             let allContent = mainBuffer.toString('utf8');
             let previewContent = allContent.substring(0, previewCharNum);
             previewContent += '\nSubscribe to unlock all content';
             previewBuffer = Buffer.from(previewContent, 'utf8');
         }
-        else if(this.state.fileType == 'image') {
+        else if(this.state.fileType === 'image') {
             let img = await Jimp.read(mainBuffer.slice());
             img.blur(10);
             previewBuffer = await img.getBufferAsync(Jimp.MIME_JPEG);
         }
-        else if(this.state.fileType == 'pdf') {
+        else if(this.state.fileType === 'pdf') {
             let pdfDoc = await PDFDocument.load(mainBuffer.slice());
             let previewDoc = await PDFDocument.create();
             let [firstPage] = await previewDoc.copyPages(pdfDoc, [0]); // extract first page
@@ -126,9 +126,9 @@ class UploadPage extends Component {
 
     getFileTypes = typeStr => {
         let filetype = typeStr.split('/'); // return type / subtype
-        if(filetype[0] == 'text') return 'text';
-        else if(filetype[0] == 'image') return 'image';
-        else if(filetype[1] == 'pdf') return 'pdf';
+        if(filetype[0] === 'text') return 'text';
+        else if(filetype[0] === 'image') return 'image';
+        else if(filetype[1] === 'pdf') return 'pdf';
         return null;
     }
 
@@ -141,30 +141,22 @@ class UploadPage extends Component {
                             type = "file"
                             onChange = {this.onFileUpload}
                         />
-                        File Upload
+                        Select file
                     </label>
                     <button
                         type="submit"
                     > 
-                        Send file to ipfs
+                        Upload
                     </button>
                 </form>
                 <div className="preview">{getPreviewContent(this.state.previewBuffer, this.state.fileType)}</div>
                 <div className="footer">
                     <div className="footer-field">
-                        <div className="footer-key">File uploaded</div>
+                        <div className="footer-key"><pre>File name</pre></div>
                         <div className="footer-value">{this.state.fileName}</div>
                     </div>
                     <div className="footer-field">
-                        <div className="footer-key">Main File CID</div> 
-                        <div className="footer-value">{this.state.mainIPFSHash}</div>
-                    </div>
-                    <div className="footer-field">
-                        <div className="footer-key">Preview File CID</div> 
-                        <div className="footer-value">{this.state.previewIPFSHash}</div>
-                    </div>
-                    <div className="footer-field">
-                        <div className="footer-key">File type</div> 
+                        <div className="footer-key"><pre>File type</pre></div> 
                         <div className="footer-value">{this.state.fileType}</div>
                     </div>
                 </div>

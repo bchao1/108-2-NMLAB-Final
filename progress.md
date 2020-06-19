@@ -29,11 +29,20 @@
         filename: str, 
         main_ipfs_hash: str, 
         preview_ipfs_hash: str,
-        price: uint, author: str
+    )
+    AuthorMeta = (
+        address: address,
+        name: str,
     )
   ```
 
 ### Methods
+- GetAuthorInfo
+    - input: address
+    - output: AuthorMeta
+
+- SetAuthorInfo
+    - input: AuthorMeta
 
 - Upload
     - input: BookMeta
@@ -56,14 +65,22 @@
     - output: BookMeta - main_ipfs_hash
     
 ## Progress
+- 6/9
+    - 改 donate 單位
+    - author 資料頁
+        - 前端
+        - contract
+    - filter 接 contract
+    - MyFeedsPage 刪除重複的
+    - 開始頁面
 - 5/26
     - Finish basic support
-        - Finish Buy/Donate
-        - Finish My feeds
+        - [x] Finish Buy/Donate
+        - [x] Finish My feeds
             - Show main file hash
-        - Market no main file hash
-        - Upload don't show file hash, show success message
-        - Remove logout
+        - [x] Market no main file hash
+        - [x] Upload don't show file hash, show success message
+        - [x] Remove logout
     - Other
         - [x] Different "displayable" file types
             - `application/pdf`

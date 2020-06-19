@@ -30,8 +30,8 @@ class PDF extends React.Component {
   handleClick = dir => {
     this.setState(state => {
       let newPageNumber = state.pageNumber;
-      if(dir == 'prev' && state.pageNumber > 1) newPageNumber = state.pageNumber - 1;
-      else if(dir == 'next' && state.pageNumber < state.numPages) newPageNumber = state.pageNumber + 1;
+      if(dir === 'prev' && state.pageNumber > 1) newPageNumber = state.pageNumber - 1;
+      else if(dir === 'next' && state.pageNumber < state.numPages) newPageNumber = state.pageNumber + 1;
       return { pageNumber: newPageNumber};
     })
   }
