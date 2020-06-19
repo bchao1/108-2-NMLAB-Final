@@ -45,10 +45,17 @@ class AccountPage extends Component{
         }
     }
 
-    onSubmitBtnClick = e => {
+    onSubmitBtnClick = async (e) => {
         // submit tmpInfo.
         e.preventDefault();
-        alert(this.state.tmpInfo.username);
+        // alert(this.state.tmpInfo.username);
+        const { accounts, contract } = this.props;
+        let status = await contract.methods.SetAuthorInfo([
+            accounts[0],
+            this.state.tmpInfo.username,
+        ]).send({from: accounts[0]});
+
+        this.updateAccountInfo();
     }
 
 
@@ -67,6 +74,19 @@ class AccountPage extends Component{
         })
     }
 
+    updateAccountInfo = async () => {
+        const { accounts, contract } = this.props;
+        if (!accounts || !contract)　return;  // state valid
+        var accountInfo = await contract.methods.GetAuthorInfo(accounts[0]).call();
+        this.setState({
+            username: accountInfo.name,
+        })
+    }
+
+    componentDidMount = async () => {
+        this.updateAccountInfo();
+    }
+
     render(){
         const { classes } = this.props;
         return(
@@ -74,7 +94,7 @@ class AccountPage extends Component{
                 <div className="headline">
                     Hello
                      <br/>
-                     <span style={{"font-size": "2.5rem"}}>{this.state.username}</span>
+                     <div className="username">{this.state.username}</div>
                 </div>
                 <div className="account">
                     <div className="account-info">

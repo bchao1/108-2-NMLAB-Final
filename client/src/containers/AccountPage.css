@@ -21,7 +21,15 @@
     font-family: "Fira Mono";
     font-size: 4rem;
     height: 30%;
+    width: 100%;
     /*background-color: red;*/
+}
+
+.username {
+    width: 80%;
+    margin: 0 auto;
+    overflow-x: scroll;
+    font-size: 2.5rem;
 }
 
 .account
