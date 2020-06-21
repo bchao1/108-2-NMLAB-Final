@@ -16,6 +16,8 @@ class FileCard extends React.Component{
             donate: "",
             prevBuffer: "",
             prevOpen: false,
+            author: props.author,
+            authorname: "<unk>"
         };
     }
 
@@ -51,6 +53,18 @@ class FileCard extends React.Component{
         })
     }
 
+    updateAuthorName = async () => {
+        const { contract } = this.props;
+        if (!contract) return;  // state valid
+        var accountInfo = await contract.methods.GetAuthorInfo(this.state.author).call();
+        this.setState({
+            authorname: accountInfo.name,
+        })
+    }
+    
+    componentDidMount = async () => {
+        this.updateAuthorName();
+    }
     
     render(){
         const footer = this.props.owned ? 
@@ -88,6 +102,8 @@ class FileCard extends React.Component{
                 <div className={styles.file} onClick={this.onPreviewClick}>
                     {/* <div className={styles.key}>File hash</div> */}
                     {/* <div className={styles.value}>{this.props.main_ipfs_hash}</div> */}
+                    {/* <div className={styles.key}>Author</div> */}
+                    <div className={styles.key}>{this.state.authorname}</div>
                     {/* <div className={styles.key}>File name</div> */}
                     <div className={styles.value}>{this.props.filename}</div>
                 </div>

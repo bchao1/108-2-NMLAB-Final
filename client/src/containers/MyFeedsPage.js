@@ -22,8 +22,8 @@ class MyFeedsPage extends Component {
     updateMyFeed = async() => {
         const { accounts, contract } = this.props;
         if (!accounts || !contract)　return;  // state valid
-        var myUpload = await contract.methods.GetMyUpload().call();
-        var myCollect = await contract.methods.GetMyCollect().call();
+        var myUpload = await contract.methods.GetMyUpload().call({from: accounts[0]});
+        var myCollect = await contract.methods.GetMyCollect().call({from: accounts[0]});
         this.setState({
             myUpload: this.getUniqueItems(myUpload), 
             myCollect: this.getUniqueItems(myCollect)
@@ -48,13 +48,15 @@ class MyFeedsPage extends Component {
     render() {
         let uploadBookshelfRows = this.splitRows(this.state.myUpload);
         let collectBookshelfRows = this.splitRows(this.state.myCollect);
+        const { accounts, contract, classes } = this.props;
         return (
             <div className="MyFeedsPage">
                 <div className="MyFeedsSection">
                     My Upload
                     {
                         uploadBookshelfRows.map((row, idx) => (
-                            <Bookshelf key={idx} fileInfo={row} owned={true}/>
+                            <Bookshelf key={idx} fileInfo={row} owned={true}
+                            accounts={accounts}  contract={contract}/>
                         ))
                     }
                 </div>
@@ -62,7 +64,8 @@ class MyFeedsPage extends Component {
                     My Collection
                     {
                         collectBookshelfRows.map((row, idx) => (
-                            <Bookshelf key={idx} fileInfo={row} owned={true} />
+                            <Bookshelf key={idx} fileInfo={row} owned={true} 
+                            accounts={accounts}  contract={contract}/>
                         ))
                     }
                 </div>

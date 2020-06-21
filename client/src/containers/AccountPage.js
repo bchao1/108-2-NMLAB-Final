@@ -41,7 +41,8 @@ class AccountPage extends Component{
             username: "user",
             tmpInfo: {
                 username: "user"
-            }
+            },
+            money: 0
         }
     }
 
@@ -75,11 +76,13 @@ class AccountPage extends Component{
     }
 
     updateAccountInfo = async () => {
-        const { accounts, contract } = this.props;
+        const { web3, accounts, contract } = this.props;
         if (!accounts || !contract)　return;  // state valid
         var accountInfo = await contract.methods.GetAuthorInfo(accounts[0]).call();
+        var value = await web3.eth.getBalance(accounts[0]);
         this.setState({
             username: accountInfo.name,
+            money: value * 1e-18
         })
     }
 
@@ -111,7 +114,7 @@ class AccountPage extends Component{
                     </div>
                     <div className="account-info">
                         <div className="key">Account</div>
-                        <div className="value">?? ETH</div>
+                        <div className="value">{this.state.money} ETH</div>
                     </div>
                     <div className="button-div">
                         <Button
