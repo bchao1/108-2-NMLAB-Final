@@ -17,7 +17,7 @@ class FileCard extends React.Component{
             prevBuffer: "",
             prevOpen: false,
             author: props.author,
-            authorname: "<unk>"
+            authorname: ""
         };
     }
 
