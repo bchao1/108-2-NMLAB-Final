@@ -22,8 +22,8 @@ class MyFeedsPage extends Component {
     updateMyFeed = async() => {
         const { accounts, contract } = this.props;
         if (!accounts || !contract)　return;  // state valid
-        var myUpload = await contract.methods.GetMyUpload().call();
-        var myCollect = await contract.methods.GetMyCollect().call();
+        var myUpload = await contract.methods.GetMyUpload().call({from: accounts[0]});
+        var myCollect = await contract.methods.GetMyCollect().call({from: accounts[0]});
         this.setState({
             myUpload: this.getUniqueItems(myUpload), 
             myCollect: this.getUniqueItems(myCollect)
