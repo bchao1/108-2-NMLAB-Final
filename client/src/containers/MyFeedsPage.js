@@ -30,13 +30,14 @@ class MyFeedsPage extends Component {
         });
     }
 
-    getUniqueItems = (arr) => (
-        arr.filter((val, index, self) => 
+    getUniqueItems = (arr) => {
+        if(arr === null) return [];
+        return arr.filter((val, index, self) => 
             index === self.findIndex((t) => (
                 t[2] === val[2] && t[3] === val[3]
             ))
         )
-    )
+    }
     
     splitRows = (items) => {
         let rows = [], chunk = 4, i, j;

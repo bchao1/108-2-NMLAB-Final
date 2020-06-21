@@ -47,12 +47,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="Navigation">
-          <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/account">Account</NavLink></div>
+        <div className="Header">
+          <div className="Logo">DPP: Decentralized Publish Platform</div>
+          <div className="Navigation">
+            <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/account">Account</NavLink></div>
+          </div>
         </div>
+        
         <Switch>
           <Route 
             path="/market" 
