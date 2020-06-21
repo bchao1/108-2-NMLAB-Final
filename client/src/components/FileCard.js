@@ -16,6 +16,8 @@ class FileCard extends React.Component{
             donate: "",
             prevBuffer: "",
             prevOpen: false,
+            author: props.author,
+            authorname: "<unk>"
         };
     }
 
@@ -27,10 +29,11 @@ class FileCard extends React.Component{
 
     onDonateClick = async () => {
         const { accounts, contract } = this.props;
-        const value = parseFloat(this.state.donate);
+        const eth_value = parseFloat(this.state.donate);
+        const wei_value = 1e18 * eth_value;
         const status = await contract.methods.Donate(this.props.preview_ipfs_hash).send({
             from: accounts[0], 
-            value: value,
+            value: wei_value,
         });
     }
 
@@ -50,6 +53,18 @@ class FileCard extends React.Component{
         })
     }
 
+    updateAuthorName = async () => {
+        const { contract } = this.props;
+        if (!contract) return;  // state valid
+        var accountInfo = await contract.methods.GetAuthorInfo(this.state.author).call();
+        this.setState({
+            authorname: accountInfo.name,
+        })
+    }
+    
+    componentDidMount = async () => {
+        this.updateAuthorName();
+    }
     
     render(){
         const footer = this.props.owned ? 
@@ -61,6 +76,7 @@ class FileCard extends React.Component{
                     className={styles.left}
                     type="text"
                     value={this.state.donate}
+                    placeholder={"unit: ETH"} // 1e18 wei = 1 ETH
                     onChange={this.handleInputChange}
                 />
                 <div 
@@ -86,6 +102,8 @@ class FileCard extends React.Component{
                 <div className={styles.file} onClick={this.onPreviewClick}>
                     {/* <div className={styles.key}>File hash</div> */}
                     {/* <div className={styles.value}>{this.props.main_ipfs_hash}</div> */}
+                    {/* <div className={styles.key}>Author</div> */}
+                    <div className={styles.key}>{this.state.authorname}</div>
                     {/* <div className={styles.key}>File name</div> */}
                     <div className={styles.value}>{this.props.filename}</div>
                 </div>

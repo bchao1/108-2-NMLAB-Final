@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import UploadPage from "./containers/UploadPage";
 import MarketPage from "./containers/MarketPage";
 import MyFeedsPage from "./containers/MyFeedsPage";
-import LoginPage from "./containers/LoginPage";
+import AccountPage from "./containers/AccountPage";
 //import Navigation from "./components/Navigation";
 import "./App.css";
 import { NavLink, Switch, Route } from "react-router-dom";
@@ -30,6 +30,7 @@ class App extends Component {
       const networkId = await web3.eth.net.getId();
       const deployedNetwork = PublisherContract.networks[networkId];
       console.log(networkId, deployedNetwork);
+      console.log(accounts)
       const instance = new web3.eth.Contract(
         PublisherContract.abi,
         deployedNetwork && deployedNetwork.address,
@@ -46,11 +47,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="Navigation">
-          <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
-          <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
+        <div className="Header">
+          <div className="Logo">DPP: Decentralized Publish Platform</div>
+          <div className="Navigation">
+            <div className="button"><NavLink style={styles.link} to="/market">Market</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/mine">My Feeds</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/upload">Upload</NavLink></div>
+            <div className="button"><NavLink style={styles.link} to="/account">Account</NavLink></div>
+          </div>
         </div>
+        
         <Switch>
           <Route 
             path="/market" 
@@ -63,6 +69,10 @@ class App extends Component {
           <Route 
             path="/upload" 
             component={() => <UploadPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
+          </Route>
+          <Route 
+            path="/account" 
+            component={() => <AccountPage web3={this.state.web3} accounts={this.state.accounts} contract={this.state.contract}/>}>
           </Route>
         </Switch>
       </div>

@@ -1,0 +1,84 @@
+
+.AccountPage {
+    margin: 0 auto;
+    margin-top: 2%;
+    width: 40%;
+    height: 80%;
+    /*
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-family: 'Rajdhani';
+    */
+    border-radius: 8px;
+    overflow-y: scroll;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.headline
+{
+    margin-top: 10%;
+    color: white;
+    font-family: "Fira Mono";
+    font-size: 4rem;
+    height: 30%;
+    width: 100%;
+    /*background-color: red;*/
+}
+
+.username {
+    width: 80%;
+    margin: 0 auto;
+    overflow-x: scroll;
+    font-size: 2.5rem;
+}
+
+.account
+{
+    width: 80%;
+    height: 50%;
+    /*background-color: yellow;*/
+    margin: 0 auto;
+    font-size: 1.5rem;
+    position: relative;
+}
+
+.account-info
+{
+    font-family: "Fira Mono";
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    color: white;
+}
+
+.key
+{
+    width: 40%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.value
+{
+    width: 40%;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.button-div
+{
+    position: absolute;
+    bottom: 0;
+    /*background-color: blue;*/
+    width: 100%;
+}
+
+.input
+{
+    height: 100%;
+    font-family: "Fira Mono";
+    border: 1px solid white;
+    border-radius: 5px;
+    padding-left: 20px;
+}
