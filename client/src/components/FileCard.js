@@ -31,7 +31,7 @@ class FileCard extends React.Component{
         const wei_value = 1e18 * eth_value;
         const status = await contract.methods.Donate(this.props.preview_ipfs_hash).send({
             from: accounts[0], 
-            value: eth_value,
+            value: wei_value,
         });
     }
 
