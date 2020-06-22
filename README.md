@@ -1,71 +1,75 @@
-# React Truffle Box
+# 108-2 NMLAB Final
+## DPP - Decentralized Publishing Platform
+- 電機四 b05901033 莊永松
+- 電機四 b05901189 吳祥叡
+- 電機三 b06901104 趙崇皓
+## Prerequisites
+Make sure the follwing npm packages are installed globally:
+```
+├── ganache-cli@6.9.1
+└── truffle@5.1.24
+```
+For browsers, you can use **Chrome** and **Firefox**. Make sure that **Metamask** is installed as a plugin in the browser.
 
-This box comes with everything you need to start using smart contracts from a react app. This is as barebones as it gets, so nothing stands in your way.
+## How to
+### Starting a local blockchain
+In the top level folder, start the ganache-cli:
+```
+> ganache-cli
+```
+A local blockchain network `http://127.0.0.1:8545` will be created.
 
-## Installation
+Open another terminal (or you could use tmux), type the following commands:
+```
+> truffle compile
+> truffle migrate
+```
+### Starting local client
+Navigate to `client` folder, and type:
+```
+> yarn start
+```
+You can now go to `localhost:3000` to visit the webpage.
 
-First ensure you are in a new and empty directory.
+### Connecting Metamask to local network
 
-1. Run the `unbox` command via `npx` and skip to step 3. This will install all necessary dependencies. A Create-React-App is generated in the `client` directory.
-   ```js
-   npx truffle unbox react
-   ```
+After starting a local blockchain network and client webpage, we need to connect the browser's Metamask account (assuming you already have one) to the local blockchain network.
 
-2. Alternatively, you can install Truffle globally and run the `unbox` command.
-    ```javascript
-    npm install -g truffle
-    truffle unbox react
-    ```
+|Step|Snapshot|
+|---|---|
+|Open your browser, and click on the Metamask icon.|![img](./images/metamask1.png)|
+|Click the dropdown list on the top. You should see a list of networks.|![img](./images/metamask2.png)|
+|Choose **Custom RPC** and, and set RPC url to `http://127.0.0.1:8545/`(default), or the url ganache-cli specifies.|![img](./images/metamask3.png)|
 
-3. Run the development console.
-    ```javascript
-    truffle develop
-    ```
+### Importing accounts
+After starting `ganache-cli`, you will have some spare accounts to use:
 
-4. Compile and migrate the smart contracts. Note inside the development console we don't preface commands with `truffle`.
-    ```javascript
-    compile
-    migrate
-    ```
+![img](./images/ganache-account.png)
 
-5. In the `client` directory, we run the React app. Smart contract changes must be manually recompiled and migrated.
-    ```javascript
-    // in another terminal (i.e. not in the truffle develop prompt)
-    cd client
-    npm run start
-    ```
+Suppose we want the use account no. 9:
 
-6. Truffle can run tests written in Solidity or JavaScript against your smart contracts. Note the command varies slightly if you're in or outside of the development console.
-    ```javascript
-    // inside the development console.
-    test
+|Step|Snapshot|
+|---|---|
+|Click on Metamask and select the icon on the top-right. Click on **Import Account**.|![img](./images/account1.png)|
+|Copy the private key of account you wish to use and paste it in Metamask.|![img](./images/account2.png)|
+|Click **Import** and see account successfully loaded.|![img](./images/account3.png)|
 
-    // outside the development console..
-    truffle test
-    ```
+### Setting up ipfs node
+Currently, we have an ipfs node running on our own server. However, you can also run a ipfs node locally:
+```
+> docker run -it -p 4002:4002 -p 4003:4003 -p 5002:5002    -p9090:9090 ipfs/js-ipfs:latest
+```
+After starting your own ipfs node, you need to modify `IPFS_ADDRESS` in `client/src/constants.js`. Currently, it is set to our current server address. If you run locally, you need to set it to `127.0.0.1`.
 
-7. Jest is included for testing React components. Compile your contracts before running Jest, or you may receive some file not found errors.
-    ```javascript
-    // ensure you are inside the client directory when running this
-    npm run test
-    ```
+### Features
 
-8. To build the application for production, use the build script. A production build will be in the `client/build` folder.
-    ```javascript
-    // ensure you are inside the client directory when running this
-    npm run build
-    ```
-
-## FAQ
-
-* __How do I use this with the Ganache-CLI?__
-
-    It's as easy as modifying the config file! [Check out our documentation on adding network configurations](http://truffleframework.com/docs/advanced/configuration#networks). Depending on the port you're using, you'll also need to update line 29 of `client/src/utils/getWeb3.js`.
-
-* __Where is my production build?__
-
-    The production build will be in the `client/build` folder after running `npm run build` in the `client` folder.
-
-* __Where can I find more documentation?__
-
-    This box is a marriage of [Truffle](http://truffleframework.com/) and a React setup created with [create-react-app](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md). Either one would be a great place to start!
+- Modify account information (Account)
+- Upload files (Upload)
+    - Currently supports `.txt`, `.pdf`, and image filetypes.
+    - Aside from the original file, the webpage will also upload a preview file (blurred image, truncated pdf file) to the ipfs node.
+- Check user's uploaded files and files users donated to (MyFeeds).
+    - You can download the full file by clicking **Download**.
+- Browse all files on the chain (Market).
+    - Currently supports filter by filename and filetype.
+    - You can preview the file by clicking on the file card.
+    - You can donate money to the author of the file.

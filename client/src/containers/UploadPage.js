@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { PDFDocument } from 'pdf-lib'
 import { getPreviewContent } from "../utils/preview";
 import "./UploadPage.css";
+import { IPFS_ADDRESS } from "../constants";
 
 
 let Jimp = require('jimp');
 
 const ipfsClient = require('ipfs-http-client');
-const ipfs = ipfsClient({host :"ntuee.org", port: 5002, protocol: "http"});
+const ipfs = ipfsClient({host: IPFS_ADDRESS, port: 5002, protocol: "http"});
 
 const previewCharNum = 500;
 

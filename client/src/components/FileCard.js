@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { getPreviewContent } from "../utils/preview";
-
+import { IPFS_ADDRESS } from '../constants';
 // test cid QmW6iyTGihRKwX8xRXyZAD9kY1G4R5rY9QBEeGLTnTwFxp
 
 class FileCard extends React.Component{
@@ -38,7 +38,7 @@ class FileCard extends React.Component{
     }
 
     onPreviewClick = async () => {
-        let res = await fetch(`http://ntuee.org:9090/ipfs/${this.props.preview_ipfs_hash}`);
+        let res = await fetch(`http://${IPFS_ADDRESS}:9090/ipfs/${this.props.preview_ipfs_hash}`);
         let data = await res.arrayBuffer();
         this.setState({
             prevBuffer: Buffer.from(data),
