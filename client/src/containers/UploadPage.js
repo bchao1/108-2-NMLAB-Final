@@ -116,8 +116,8 @@ class UploadPage extends Component {
         else if(this.state.fileType === 'pdf') {
             let pdfDoc = await PDFDocument.load(mainBuffer.slice());
             let previewDoc = await PDFDocument.create();
-            let [firstPage] = await previewDoc.copyPages(pdfDoc, [0]); // extract first page
-            previewDoc.addPage(firstPage);
+            let pages = await previewDoc.copyPages(pdfDoc, [0,1,2]); // extract first page
+            for(const p of pages) previewDoc.addPage(p);
             previewBuffer = await previewDoc.save();
 
         }

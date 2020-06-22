@@ -82,7 +82,7 @@ class AccountPage extends Component{
         var value = await web3.eth.getBalance(accounts[0]);
         this.setState({
             username: accountInfo.name,
-            money: value * 1e-18
+            money: (value * 1e-18).toFixed(8)
         })
     }
 
